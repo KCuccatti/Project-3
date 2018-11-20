@@ -5,12 +5,12 @@ import Logo from '../../resources/image/TekSystemsLogo.png';
 import axios from 'axios';
 import LoggedIn from '../dumb/LoggedIn';
 import NotLoggedIn from '../dumb/NotLoggedIn';
-import Example from '../dumb/Example';
+import Category from '../dumb/Category';
 
 export default class Login extends Component {
     constructor() {
         super()
-        
+
         this.state = {
             srcSystemCode: "QUIZ",
             username: '',
@@ -18,7 +18,7 @@ export default class Login extends Component {
             error: '',
             loggedIn: '',
             msg: '',
-            example: '',
+            category: ''
         };
 
         this.dismissError = this.dismissError.bind(this);
@@ -38,12 +38,12 @@ export default class Login extends Component {
         evt.preventDefault();
 
         if (!this.state.username) {
-            this.setState({msg: ''});
+            this.setState({ msg: '' });
             return this.setState({ error: 'Username is required' });
         }
 
         if (!this.state.password) {
-            this.setState({msg: ''});
+            this.setState({ msg: '' });
             return this.setState({ error: 'Password is required' });
         }
 
@@ -57,8 +57,8 @@ export default class Login extends Component {
 
     conditionalLogin = () => {
         if (this.state.loggedIn === true) {
-            this.setState({ msg: <LoggedIn username={this.state.username} />});
-            this.setState({ example: <Example/> });
+            this.setState({ msg: <LoggedIn username={this.state.username} /> });
+            this.setState({ category: <Category /> });
         } else if (this.state.loggedIn === false) {
             this.setState({ msg: <NotLoggedIn /> });
         }
@@ -70,8 +70,9 @@ export default class Login extends Component {
     }
 
     getUser = () => {
-        axios.get(`http://localhost:3000/api/GetUser/${this.state.username}&${this.state.srcSystemCode}&${this.state.password}`)
+        axios.get(`/api/GetUser/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
+                console.log(result);
                 this.setState({ loggedIn: result.data.loggedIn })
                 this.conditionalLogin();
             })
@@ -130,7 +131,7 @@ export default class Login extends Component {
                     }
                 </form>
                 {this.state.msg}
-                {this.state.example}
+                {this.state.category}
             </div>
         );
     }
