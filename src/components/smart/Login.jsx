@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import './login.css';
-import 'bootstrap/dist/css/bootstrap.css';
-import Logo from '../../resources/image/TekSystemsLogo.png';
 import axios from 'axios';
-import LoggedIn from '../dumb/LoggedIn';
-import NotLoggedIn from '../dumb/NotLoggedIn';
-import Category from '../dumb/Category';
-
+import Message from '../dumb/Message';
+import LoginDiv from '../dumb/LoginDiv';
 export default class Login extends Component {
     constructor() {
         super()
@@ -18,7 +14,7 @@ export default class Login extends Component {
             error: '',
             loggedIn: '',
             msg: '',
-            category: ''
+            category: []
         };
 
         this.dismissError = this.dismissError.bind(this);
@@ -26,14 +22,11 @@ export default class Login extends Component {
         this.handleSignup = this.handleSignup.bind(this);
         this.handleUserChange = this.handleUserChange.bind(this);
         this.handlePassChange = this.handlePassChange.bind(this);
-
     }
 
-    dismissError() {
-        this.setState({ error: '' });
-    }
-
-
+    // Handles what occurs on click of the login button. If no user or pass is detected
+    // change state of error. Also call getUser function to grab user info from db
+    // and see if login information passed is valid.
     handleLogin(evt) {
         evt.preventDefault();
 
@@ -47,28 +40,29 @@ export default class Login extends Component {
             return this.setState({ error: 'Password is required' });
         }
 
-        //        this.getUser();
-        this.componentDidMount();
+        this.getUser();
 
 
         return this.setState({ error: '' });
 
     }
 
+    // Checks state of loggedIn determined from backend and informs user if
+    // credintials are incorrect, if correct, welcome them.
     conditionalLogin = () => {
         if (this.state.loggedIn === true) {
-            this.setState({ msg: <LoggedIn username={this.state.username} /> });
-            this.setState({ category: <Category /> });
+            this.setState(
+                {
+                    msg: <Message message={<h1>Welcome, {this.state.username}</h1>} />
+                })
+                this.getCategory();
         } else if (this.state.loggedIn === false) {
-            this.setState({ msg: <NotLoggedIn /> });
+            this.setState({ msg: <Message message={<h2>Please check that you have entered the correct username/password</h2>} /> });
         }
     }
 
-
-    componentDidMount() {
-        this.getUser();
-    }
-
+    // Gets user information from the db, sets state of loggedIn determined from backend. 
+    // Also calls conditionalLogin function to determine what to display based on state recieved from backend.
     getUser = () => {
         axios.get(`/api/GetUser/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
@@ -78,6 +72,21 @@ export default class Login extends Component {
             })
     }
 
+     getCategory = () => {
+        let categories = [];
+        axios.get('/api/GetCategory').then(data => {
+            categories = data.data.response.map((value) => {
+                return value.description;
+            });
+            console.log(categories);
+            this.setState({
+                category: categories,
+            });
+        });
+    }
+
+
+    // If no user or password is passed in for user to signup, set state of error.
     handleSignup(evt) {
         evt.preventDefault();
         if (!this.state.username) {
@@ -87,14 +96,10 @@ export default class Login extends Component {
         if (!this.state.password) {
             return this.setState({ error: 'Password is required' });
         }
-
-        console.log(this.state.username);
-        console.log(this.state.password);
-
         return this.setState({ error: '' });
     }
 
-
+    // Sets state of username to value of username input box
     handleUserChange(evt) {
         this.setState({
             username: evt.target.value,
@@ -102,39 +107,27 @@ export default class Login extends Component {
 
     };
 
+    // Sets state of password to value of password input box
     handlePassChange(evt) {
         this.setState({
             password: evt.target.value,
         });
     }
 
+    // Sets state of error to empty 
+    dismissError() {
+        this.setState({ error: '' });
+    }
+
     render() {
 
         return (
-            <div className="login-div mx-auto">
-                <img src={Logo} width="150" alt="TEKSystems Logo" />
-                <form onSubmit={this.handleLogin}>
-
-                    <input className="form-control form w-50 text-center mt-3" maxLength="80" type="text" data-test="username" value={this.state.username} onChange={this.handleUserChange} placeholder="Enter username" />
-                    <br></br>
-                    <input className="form-control form w-50 text-center" maxLength="80" type="password" data-test="password" placeholder="Enter password" value={this.state.password} onChange={this.handlePassChange} />
-
-                    <button onClick={this.handleLogin} className="btn btn-primary m-3" data-test="submit">Log in</button>
-                    <button className="btn btn-primary m-3" data-test="submit">Sign Up</button>
-
-                    {
-                        this.state.error &&
-                        <h3 data-test="error" onClick={this.dismissError}>
-                            <button onClick={this.dismissError}>✖</button>
-                            {this.state.error}
-                        </h3>
-                    }
-                </form>
-                {this.state.msg}
-                {this.state.category}
+            <div>
+                <LoginDiv handleLogin={this.handleLogin} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissError={this.dismissError} />
             </div>
         );
     }
 }
+
 
 

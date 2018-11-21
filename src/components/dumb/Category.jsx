@@ -1,23 +1,18 @@
 import React from 'react';
 
+
 const Category = (props) => {
     
-    props = {
-        "category": [ "Ford", "BMW", "Fiat", "asdfadsf", "sdfsd", "sdfdsf", "sdfdsf" ]
-    }
-
 
     return (
         <div className="category">
-       
             <select id="category">
                 {
                     props.category.map((category, index) => (
-                        <option>{category}</option>
+                        <option key={index} value={category}>{category}</option>
                     ))
                 }
             </select>
-
         </div>
     )
 }
