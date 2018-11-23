@@ -1,0 +1,40 @@
+.login-div {
+     width: 300px;
+     margin-top: 250px;
+     background-color: rgb(51, 108, 173);
+     opacity: .88;
+    }
+
+.form {
+    text-align: center;
+    align-content: middle;
+    margin: auto;
+}
+
+.invalidLoginMsg {
+    color: white;
+    font-size: 1.2em;
+    background-color: rgb(51, 108, 173);
+    margin-left: -0px;
+}
+
+.closeBtn {
+    background-color: red;
+}
+
+.closeBtnLbl {
+    background-color: red;
+    margin: auto;
+}
+
+.logoDiv {
+    background-color: black;
+}
+
+.form-control {
+    border: 3px solid #e5e913;
+}
+
+
+
+

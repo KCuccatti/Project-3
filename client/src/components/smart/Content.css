@@ -1,0 +1,18 @@
+.content {
+    width: 56%;
+    background-color: white;
+    margin-left:300px;
+    
+}
+
+.answer {
+    text-align: left;
+}
+
+.question {
+    text-align:left;
+}
+
+.buttons {
+    text-align:left;
+}
