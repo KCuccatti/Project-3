@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  Card, CardBody,
-  CardTitle, Button
-} from 'reactstrap';
-import Sidebar from '../Sidebar/Sidebar.jsx';
+import {Card, CardBody,} from 'reactstrap';
 import Content from '../../smart/Content.jsx';
 const card = (props) => {
   return (
@@ -13,7 +9,7 @@ const card = (props) => {
           <Card className="card">
             <CardBody>
               {/* <CardTitle>Card title</CardTitle> */}
-              <div><Content /></div>
+              <Content />
               {/* <Button>Button</Button> */}
             </CardBody>
           </Card>
@@ -21,7 +17,7 @@ const card = (props) => {
       }
     </div>
 
-    
+
   );
 };
 

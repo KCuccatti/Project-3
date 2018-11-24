@@ -31,9 +31,7 @@ class App extends Component {
   render() {
     return (
       <div className="App" >
-        <div>
           <Login callback={this.passLoggedInState.bind(this)} />
-        </div>
         {
           this.state.loggedIn ?
           <Sidebar callback={this.passCategoriesState.bind(this)}/>
