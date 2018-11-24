@@ -15,16 +15,15 @@ export default class Login extends Component {
             error: '',
             loggedIn: '',
             msg: '',
-            category: [],
             showLoginDiv: true
         };
     }
 
     getContent(aPropertyValue) {
-        console.log("CURRENT VALUE OF loggedIn: " + aPropertyValue);
         this.props.callback(aPropertyValue);
     }
 
+   
     // Handles what occurs on click of the login button. If no user or pass is detected
     // change state of error. Also call getUser function to grab user info from db
     // and see if login information passed is valid.
@@ -57,8 +56,6 @@ export default class Login extends Component {
                 {
                     showLoginDiv: false
                 })
-
-            this.getCategory();
         } else if (this.state.loggedIn === false) {
             this.setState({ error: ' Invalid username/password' });
         }
@@ -69,26 +66,13 @@ export default class Login extends Component {
     getUser = () => {
         axios.get(`/api/GetUser/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
-                console.log("Currently logged In: " + result.data.loggedIn);
                 this.setState({ loggedIn: result.data.loggedIn })
                 this.conditionalLogin();
                 this.getContent(this.state.loggedIn);
             })
     }
 
-    // Gets categories from backend, maps through the array object, and populates the 
-    // 'categories' array with the data. Returns catagories and sets the 'category' state
-    // to the array with the data.
-    getCategory = () => {
-        let categories = [];
-        axios.get('/api/GetCategory').then(category => {
-            categories = category.data.map(value => value.description);
-            console.log(categories);
-            this.setState({
-                category: categories
-            });
-        });
-    }
+   
 
 
     // If no user or password is passed in for user to signup, set state of error.

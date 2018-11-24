@@ -11,6 +11,7 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: '',
+      categories: []
     };
   }
 
@@ -21,13 +22,23 @@ class App extends Component {
     })
   }
 
+  passCategoriesState(params) {
+    this.setState({
+      categories: params
+    })
+  }
+
   render() {
     return (
       <div className="App" >
         <div>
           <Login callback={this.passLoggedInState.bind(this)} />
         </div>
-        <Sidebar loggedIn={this.state.loggedIn}/>
+        {
+          this.state.loggedIn ?
+          <Sidebar callback={this.passCategoriesState.bind(this)}/>
+          : ""
+        }
         <Card loggedIn={this.state.loggedIn}/>
       </div>
       
