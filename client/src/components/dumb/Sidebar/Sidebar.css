@@ -4,13 +4,38 @@
 .category {
     color: white;
     text-align: left;
-    background-color: brown;
+    background-color: rgb(46, 45, 45);
     opacity: .6;
-    width: 16%;
+    width: 17%;
     margin-left: 140px;
     margin-top: -120px;
     border-radius: 10px;
     height: 549px;
 }
+
+.sidebarBtn {
+    background-color: rgb(46,45,45);
+    width:95%;
+    margin-left: 5px;
+    text-align: left;
+    font-size: 1.2em;
+    color: white;
+    border-color: rgb(46, 45, 45);
+    margin-top: 2px;
+    height: 11%;
+    opacity: .92
+}
+
+.sidebarBtn:hover {
+    color: yellow;
+    font-weight: bold;
+    background-color: rgb(73, 18, 202)
+}
+
+.sidebarImg {
+    margin-top: 10px;
+}
+
+
 
 

@@ -1,7 +1,7 @@
 .content {
-    width: 56%;
+    wifdth: 75%;
     background-color: white;
-    margin-left:300px;
+    margin-left:0px;
     
 }
 
@@ -15,4 +15,20 @@
 
 .buttons {
     text-align:left;
+}
+
+.choice {
+    color: black;
+}
+
+.correctAnswer {
+    color: green;
+}
+
+.incorrectAnswer {
+    color: red;
+}
+
+.categoryHeading {
+    color: blue;
 }

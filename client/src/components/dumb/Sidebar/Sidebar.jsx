@@ -13,6 +13,11 @@ export default class Sidebar extends Component {
     };
   }
 
+handleCategoryClick = (evt) => {
+  alert(evt.target.getAttribute('category'));
+}
+
+
   componentDidMount() {
     fetch('/api/GetCategory')
       .then(response => response.json())
@@ -23,11 +28,11 @@ export default class Sidebar extends Component {
     console.log("The Categories");
     return (
       <div className="category">
+        <br></br>
           {
             this.state.categories.map((category, index) =>
-              <h5 key={index}>
-                <img src={category.image_name} alt={category.description} width="60" />{category.description}<br></br>
-              </h5>
+                <div onClick={this.handleCategoryClick} className="sidebarBtn" category={index+1} key={index}>
+                <img className="sidebarImg" src={category.image_name} alt={category.description} width="60" />   {category.description}</div>
             )
           }
       </div>
