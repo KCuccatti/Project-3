@@ -29,23 +29,36 @@ export default class Login extends Component {
     // and see if login information passed is valid.
     handleLogin = (evt) => {
         evt.preventDefault();
-
         if (!this.state.username) {
             this.setState({ msg: '' });
             return this.setState({ error: ' Username is required' });
         }
-
         if (!this.state.password) {
             this.setState({ msg: '' });
             return this.setState({ error: ' Password is required' });
         }
-
-
         this.getUser();
-
         return this.setState({ error: '' });
-
     }
+
+    //*****************************************************************
+    // Cancel Membership for the user (Deletes from Database)
+    //*****************************************************************
+    handleCancelMembership = (evt) => {
+        alert("Getting ready to delete user");
+        evt.preventDefault();
+        if (!this.state.username) {
+            this.setState({ msg: '' });
+            return this.setState({ error: ' Username is required' });
+        }
+        if (!this.state.password) {
+            this.setState({ msg: '' });
+            return this.setState({ error: ' Password is required' });
+        }
+        this.deleteUser();  
+        return this.setState({ error: '' });
+   }
+
 
 
     // Checks state of loggedIn determined from backend and informs user if
@@ -72,6 +85,26 @@ export default class Login extends Component {
             })
     }
 
+    addUser = () => {
+        axios.post(`/api/Signup/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
+        .then((result) => {
+            if (result.data.success) {
+                
+            } else {
+                this.setState({error: 'User already exists.'});
+            }
+            console.log(result);
+        })
+    }
+
+
+    deleteUser = () => {
+        axios.delete(`/api/CancelMembership/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
+            .then((result) => {
+                alert("User deleted.");
+                console.log("User deleted");
+            })
+    }
    
 
 
@@ -85,6 +118,8 @@ export default class Login extends Component {
         if (!this.state.password) {
             return this.setState({ error: 'Password is required' });
         }
+        this.addUser();
+        
         return this.setState({ error: '' });
     }
 
@@ -113,7 +148,7 @@ export default class Login extends Component {
     render() {
         return (
             <div>
-                <LoginDiv handleLogin={this.handleLogin} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissError={this.dismissError} />
+                <LoginDiv handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissError={this.dismissError} handleSignup={this.handleSignup}/>
             </div>
         );
     }

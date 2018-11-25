@@ -17,7 +17,7 @@ const loginDiv = (props) => {
             {/* Hide when user logged in */}
             {props.user.showLoginDiv ?
 
-                <form className="loginForm" onSubmit={props.handleLogin}>
+                <form className="loginForm" onSubmit={props.handleLogin && props.handleCancelMembership}>
 
                     <input className="form-control form w-75 text-center mt-3" maxLength="80" type="text" data-test="username" value={props.user.username} onChange={props.handleUserChange} placeholder="Enter username" />
                     <br></br>
@@ -26,8 +26,8 @@ const loginDiv = (props) => {
 
                     <button onClick={props.handleLogin} className="btn btn-dark m-3" data-test="submit">Log in</button>
 
-                    <button className="btn btn-dark m-3" data-test="submit">Sign Up</button>
-
+                    <button className="btn btn-dark m-3" onClick={props.handleSignup} data-test="submit">Sign Up</button>
+                    <button onClick={props.handleCancelMembership} className="btn btn-dark m-3" data-test="submit">Cancel Membership</button>
                     {
                         props.user.error ?
                             <h6 className="invalidLoginMsg" data-test="error" onClick={props.dismissError}>
