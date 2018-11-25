@@ -23,7 +23,7 @@ export default class Login extends Component {
         this.props.callback(aPropertyValue);
     }
 
-   
+
     // Handles what occurs on click of the login button. If no user or pass is detected
     // change state of error. Also call getUser function to grab user info from db
     // and see if login information passed is valid.
@@ -55,9 +55,9 @@ export default class Login extends Component {
             this.setState({ msg: '' });
             return this.setState({ error: ' Password is required' });
         }
-        this.deleteUser();  
+        this.deleteUser();
         return this.setState({ error: '' });
-   }
+    }
 
 
 
@@ -87,25 +87,29 @@ export default class Login extends Component {
 
     addUser = () => {
         axios.post(`/api/Signup/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
-        .then((result) => {
-            if (result.data.success) {
-                
-            } else {
-                this.setState({error: 'User already exists.'});
-            }
-            console.log(result);
-        })
+            .then((result) => {
+                if (result.data.success) {
+
+                } else {
+                    this.setState({ error: 'User already exists.' });
+                }
+                console.log(result);
+            })
     }
 
 
     deleteUser = () => {
         axios.delete(`/api/CancelMembership/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
-                alert("User deleted.");
-                console.log("User deleted");
+                if (result.data.success) {
+                   this.setState({msg: 'User deleted'});
+                }
+                else {
+                    this.setState({error: 'Error deleting user'});
+                }
             })
     }
-   
+
 
 
     // If no user or password is passed in for user to signup, set state of error.
@@ -119,7 +123,7 @@ export default class Login extends Component {
             return this.setState({ error: 'Password is required' });
         }
         this.addUser();
-        
+
         return this.setState({ error: '' });
     }
 
@@ -145,10 +149,15 @@ export default class Login extends Component {
         this.setState({ error: '' });
     }
 
+     // Sets state of error to empty 
+     dismissSuccess = () => {
+        this.setState({ msg: '' });
+    }
+
     render() {
         return (
             <div>
-                <LoginDiv handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissError={this.dismissError} handleSignup={this.handleSignup}/>
+                <LoginDiv handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissError={this.dismissError} handleSignup={this.handleSignup} dismissSuccess={this.dismissSuccess}/>
             </div>
         );
     }

@@ -36,6 +36,15 @@ const loginDiv = (props) => {
                             </h6>
                             : ""
                     }
+
+                    {
+                        props.user.msg ?
+                            <h6 className="successMsg" data-test="success" onClick={props.dismissSuccess}>
+                                <button className="closeBtn" onClick={props.dismissSuccess}><label className="closeBtnLbl">✖</label></button>
+                                {props.user.msg}
+                            </h6>
+                            : ""
+                    }
                 </form> : ""
 
             }
