@@ -48,6 +48,7 @@ class App extends Component {
   }
 
   render() {
+    let currentCategory = this.state.currentCategory;
     return (
       <div className="App" >
         <Login callback={this.passLoggedInState.bind(this)} />
@@ -56,7 +57,7 @@ class App extends Component {
             <Sidebar callback={this.passCategoriesState && this.passCurrentCategory} />
             : ""
         }
-        <Card loggedIn={this.state.loggedIn} currentCategory={this.state.currentCategory} />
+        <Card loggedIn={this.state.loggedIn} currentCategory={currentCategory} />
       </div>
 
     );

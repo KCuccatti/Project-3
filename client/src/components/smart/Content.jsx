@@ -22,12 +22,12 @@ export default class Content extends Component {
 
 
     componentWillReceiveProps() {
-        console.log("HERE IS A MESSAGE: " + this.props.currentCategory );
+        console.log("HERE IS A MESSAGE: " + this.state.currentCategory);
 
        // this.setState({currentCategory: this.props.currentCategory})
 
-        if (this.props.currentCategory) {
-            this.getQuestions(this.props.currentCategory);
+        if (this.state.currentCategory) {
+            this.getQuestions(this.state.currentCategory);
         } else {
            this.getQuestions("1");
         }
@@ -81,6 +81,7 @@ export default class Content extends Component {
 
     getQuestions = (aCategory) => {
         console.log("Fetching questions from database for category: " + aCategory);
+        console.log("********************************************");
         fetch(`/api/GetQuestions/${aCategory}`)
         .then(response => response.json())
         .then(data => this.setState({ questions: data }))
@@ -104,9 +105,9 @@ export default class Content extends Component {
                     this.state.questions.map((question, index) =>
                         index === this.state.questionNumber ?
 
-                            <div>
+                            <div key={index}>
                                 <div className="question">
-                                    <h3 key={index}>
+                                    <h3 >
                                         {question.question_text}
                                     </h3>
 

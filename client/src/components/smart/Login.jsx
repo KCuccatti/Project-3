@@ -19,17 +19,18 @@ export default class Login extends Component {
         };
     }
     
-    //**************************************************************************
+    // ***************************************************************
     // Pass the loggedIn state up to the parent (App) component
-    //**************************************************************************
-    getContent(aPropertyValue) {
+    // ***************************************************************
+    getLoggedInState(aPropertyValue) {
         this.props.callback(aPropertyValue);
     }
 
-
+    // *************************************************************************
     // Handles what occurs on click of the login button. If no user or pass is detected
     // change state of error. Also call getUser function to grab user info from db
     // and see if login information passed is valid.
+    // *************************************************************************
     handleLogin = (evt) => {
         this.clearMsgState();
         evt.preventDefault();
@@ -43,6 +44,40 @@ export default class Login extends Component {
         }
         this.getUser();
         return this.setState({ error: '' });
+    }
+
+    // ***************************************************************
+    // Checks state of loggedIn determined from backend and informs user 
+    // if credintials are incorrect, if correct, welcome them.
+    // ***************************************************************
+    conditionalLogin = () => {
+        if (this.state.loggedIn === true) {
+            this.setState({showLoginDiv: false})
+
+        } else if (this.state.loggedIn === false) {
+            this.setState({ error: ' Invalid username/password' });
+        }
+    }
+
+    // ****************************************************************
+    // If no user or password is passed in for user to signup, set state 
+    // of error. If username and password entered have values, call addUser 
+    // method to attempt to sign user up, finally, clear state of both 
+    // error and msg states
+    // ****************************************************************
+    handleSignup = (evt) => {
+        evt.preventDefault();
+
+        if (!this.state.username) {
+            return this.setState({ error: 'Username is required' });
+        }
+
+        if (!this.state.password) {
+            return this.setState({ error: 'Password is required' });
+        }
+        this.addUser();
+
+        this.clearMsgState();
     }
 
     //*****************************************************************
@@ -62,23 +97,11 @@ export default class Login extends Component {
         return this.setState({ error: '' });
     }
 
-
-
-    // Checks state of loggedIn determined from backend and informs user if
-    // credintials are incorrect, if correct, welcome them.
-    conditionalLogin = () => {
-        if (this.state.loggedIn === true) {
-            this.setState(
-                {
-                    showLoginDiv: false
-                })
-        } else if (this.state.loggedIn === false) {
-            this.setState({ error: ' Invalid username/password' });
-        }
-    }
-
-    // Gets user information from the db, sets state of loggedIn determined from backend. 
-    // Also calls conditionalLogin function to determine what to display based on state recieved from backend.
+    // ***************************************************************
+    // Gets user information from the db, sets state of loggedIn determined 
+    // from backend. Also calls conditionalLogin function to determine what 
+    // to display based on state recieved from backend.
+    // ***************************************************************
     getUser = () => {
         axios.get(`/api/GetUser/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
@@ -86,10 +109,13 @@ export default class Login extends Component {
                 this.conditionalLogin();
                 
                 // pass loggedIn state to parent (App Component)
-                this.getContent(this.state.loggedIn); 
+                this.getLoggedInState(this.state.loggedIn); 
             })
     }
 
+    // ***************************************************************
+    // Adds a user to the database checking to see if user exists in db
+    // ***************************************************************
     addUser = () => {
         axios.post(`/api/Signup/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
@@ -103,7 +129,10 @@ export default class Login extends Component {
             this.clearMsgState();
     }
 
-
+    // ******************************************************************
+    // Deletes a user from the database, checking to see if there is a 
+    // user to delete, if username does not exist to be deleted, inform user
+    // ******************************************************************
     deleteUser = () => {
         axios.delete(`/api/CancelMembership/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
@@ -117,49 +146,40 @@ export default class Login extends Component {
             this.clearMsgState();
     }
 
-    clearMsgState() {
-        this.setState({msg: ''});
-        this.setState({error: ''});
-    }
 
-
-    // If no user or password is passed in for user to signup, set state of error.
-    handleSignup = (evt) => {
-        evt.preventDefault();
-
-        if (!this.state.username) {
-            return this.setState({ error: 'Username is required' });
-        }
-
-        if (!this.state.password) {
-            return this.setState({ error: 'Password is required' });
-        }
-        this.addUser();
-
-        this.clearMsgState();
-    }
-
-
+    // ******************************************************
     // Sets state of username to value of username input box
+    // ******************************************************
     handleUserChange = (evt) => {
         this.setState({
             username: evt.target.value,
         });
     };
 
-
+    // ******************************************************
     // Sets state of password to value of password input box
+    // ******************************************************
     handlePassChange = (evt) => {
         this.setState({
             password: evt.target.value,
         });
     }
 
-
+    // *******************************
     // Sets state of error to empty 
+    // *******************************
     dismissMsg = () => {
         this.clearMsgState();
     }
+
+    // *****************************************************
+    // Clears the state of the 'msg' and 'error' states 
+    // *****************************************************
+    clearMsgState() {
+        this.setState({msg: ''});
+        this.setState({error: ''});
+    }
+
 
     render() {
         return (
