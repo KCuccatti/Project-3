@@ -28,10 +28,11 @@ const loginDiv = (props) => {
 
                     <button className="btn btn-dark m-3" onClick={props.handleSignup} data-test="submit">Sign Up</button>
                     <button onClick={props.handleCancelMembership} className="btn btn-dark m-3" data-test="submit">Cancel Membership</button>
+                   
                     {
                         props.user.error ?
                             <h6 className="invalidLoginMsg" data-test="error" onClick={props.dismissError}>
-                                <button className="closeBtn" onClick={props.dismissError}><label className="closeBtnLbl">✖</label></button>
+                                <button className="closeBtn" onClick={props.dismissMsg}><label className="closeBtnLbl">✖</label></button>
                                 {props.user.error}
                             </h6>
                             : ""
@@ -39,8 +40,8 @@ const loginDiv = (props) => {
 
                     {
                         props.user.msg ?
-                            <h6 className="successMsg" data-test="success" onClick={props.dismissSuccess}>
-                                <button className="closeBtn" onClick={props.dismissSuccess}><label className="closeBtnLbl">✖</label></button>
+                            <h6 className="successMsg" data-test="success" onClick={props.dismissMsg}>
+                                <button className="closeBtn" onClick={props.dismissMsg}><label className="closeBtnLbl">✖</label></button>
                                 {props.user.msg}
                             </h6>
                             : ""
@@ -48,7 +49,7 @@ const loginDiv = (props) => {
                 </form> : ""
 
             }
-            {props.user.msg}
+            
         </div>
     )
 }

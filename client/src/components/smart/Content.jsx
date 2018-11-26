@@ -4,6 +4,7 @@ import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import fetch from 'node-fetch';
 
+
 export default class Content extends Component {
 
     constructor(props) {
@@ -14,9 +15,24 @@ export default class Content extends Component {
             questionNumber: 0,
             answer: '',
             showNextButton: true,
-            showPreviousButton: false
+            showPreviousButton: false,
+            currentCategory: ''
         };
     }
+
+
+    componentWillReceiveProps() {
+        console.log("HERE IS A MESSAGE: " + this.props.currentCategory );
+
+       // this.setState({currentCategory: this.props.currentCategory})
+
+        if (this.props.currentCategory) {
+            this.getQuestions(this.props.currentCategory);
+        } else {
+           this.getQuestions("1");
+        }
+    }
+   
 
     togglePreviousBtn = () => {
         if (this.state.questionNumber > 0) {
@@ -29,6 +45,13 @@ export default class Content extends Component {
             this.setState({ showPreviousButton: false })
         }
     }
+
+
+    //  getCurrentCategory(aPropertyValue) {
+    //      this.props.callback(aPropertyValue);
+
+    //  }
+
 
 
     handleAnswerChange = (evt) => {
@@ -55,14 +78,23 @@ export default class Content extends Component {
         }
     }
 
-    componentDidMount() {
-        fetch('/api/GetQuestions/1')
-            .then(response => response.json())
-            .then(data => this.setState({ questions: data }))
+
+    getQuestions = (aCategory) => {
+        console.log("Fetching questions from database for category: " + aCategory);
+        fetch(`/api/GetQuestions/${aCategory}`)
+        .then(response => response.json())
+        .then(data => this.setState({ questions: data }))
     }
 
-    render() {
 
+    getCurrentCategory(aPropertyValue) {
+        console.log("The property value in getCurrentCategory" + aPropertyValue);
+        // Pass the currently selected category to the parent (App) Component
+        this.props.callback(aPropertyValue);
+      }
+    
+    
+    render() {
         return (
             <div className="content">
 
@@ -114,3 +146,8 @@ export default class Content extends Component {
         )
     }
 }
+
+
+//  Content.propTypes = {
+//      callback: PropTypes.func,
+//    }

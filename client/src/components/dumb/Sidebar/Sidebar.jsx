@@ -9,14 +9,23 @@ export default class Sidebar extends Component {
     super(props)
 
     this.state = {
-      categories: []
+      categories: [],
+      currentCategory: 1
     };
   }
 
-handleCategoryClick = (evt) => {
-  alert(evt.target.getAttribute('category'));
-}
+  handleCategoryClick = (evt) => {
+    console.log("Currently selected Category in handleCategoryClick(): " + evt.target.getAttribute('category'));
+    this.setState({ currentCategory: evt.target.getAttribute('category')});
+    this.getCurrentCategory(evt.target.getAttribute('category'));
+  }
 
+
+  getCurrentCategory(aPropertyValue) {
+    console.log("The property value in getCurrentCategory" + aPropertyValue);
+    // Pass the currently selected category to the parent (App) Component
+    this.props.callback(aPropertyValue);
+  }
 
   componentDidMount() {
     fetch('/api/GetCategory')
@@ -24,17 +33,17 @@ handleCategoryClick = (evt) => {
       .then(data => this.setState({ categories: data }));
   }
 
+  
   render() {
-    console.log("The Categories");
     return (
       <div className="category">
         <br></br>
-          {
-            this.state.categories.map((category, index) =>
-                <div onClick={this.handleCategoryClick} className="sidebarBtn" category={index+1} key={index}>
-                <img className="sidebarImg" src={category.image_name} alt={category.description} width="60" />   {category.description}</div>
-            )
-          }
+        {
+          this.state.categories.map((category, index) =>
+            <div onClick={this.handleCategoryClick} className="sidebarBtn" category={index + 1} key={index}>
+              <img className="sidebarImg" src={category.image_name} alt={category.description} width="60" />   {category.description}</div>
+          )
+        }
       </div>
 
     )

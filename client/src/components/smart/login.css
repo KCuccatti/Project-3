@@ -5,6 +5,10 @@
      opacity: .88;
     }
 
+    .loginForm {
+        height: 275px;
+    }
+
 .form {
     text-align: center;
     align-content: middle;
@@ -16,10 +20,12 @@
     font-size: 1.2em;
     background-color: rgb(51, 108, 173);
     margin-left: -0px;
+    margin-bottom: -130px;
 }
 
 .closeBtn {
     background-color: red;
+    margin-top: -30px;
 }
 
 .closeBtnLbl {
@@ -34,6 +40,14 @@
 .form-control {
     border: 3px solid #e5e913;
 }
+
+.successMsg {
+    font-size: 1.2em;
+    color: white;
+    margin-bottom: 20px;
+}
+
+
 
 
 

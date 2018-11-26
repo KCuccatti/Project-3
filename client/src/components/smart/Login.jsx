@@ -18,7 +18,10 @@ export default class Login extends Component {
             showLoginDiv: true
         };
     }
-
+    
+    //**************************************************************************
+    // Pass the loggedIn state up to the parent (App) component
+    //**************************************************************************
     getContent(aPropertyValue) {
         this.props.callback(aPropertyValue);
     }
@@ -28,6 +31,7 @@ export default class Login extends Component {
     // change state of error. Also call getUser function to grab user info from db
     // and see if login information passed is valid.
     handleLogin = (evt) => {
+        this.clearMsgState();
         evt.preventDefault();
         if (!this.state.username) {
             this.setState({ msg: '' });
@@ -45,7 +49,6 @@ export default class Login extends Component {
     // Cancel Membership for the user (Deletes from Database)
     //*****************************************************************
     handleCancelMembership = (evt) => {
-        alert("Getting ready to delete user");
         evt.preventDefault();
         if (!this.state.username) {
             this.setState({ msg: '' });
@@ -81,7 +84,9 @@ export default class Login extends Component {
             .then((result) => {
                 this.setState({ loggedIn: result.data.loggedIn })
                 this.conditionalLogin();
-                this.getContent(this.state.loggedIn);
+                
+                // pass loggedIn state to parent (App Component)
+                this.getContent(this.state.loggedIn); 
             })
     }
 
@@ -89,12 +94,13 @@ export default class Login extends Component {
         axios.post(`/api/Signup/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
                 if (result.data.success) {
+                    this.setState({msg: "Glad to have you!"})
 
-                } else {
+                } else { 
                     this.setState({ error: 'User already exists.' });
                 }
-                console.log(result);
             })
+            this.clearMsgState();
     }
 
 
@@ -108,13 +114,19 @@ export default class Login extends Component {
                     this.setState({error: 'Error deleting user'});
                 }
             })
+            this.clearMsgState();
     }
 
+    clearMsgState() {
+        this.setState({msg: ''});
+        this.setState({error: ''});
+    }
 
 
     // If no user or password is passed in for user to signup, set state of error.
     handleSignup = (evt) => {
         evt.preventDefault();
+
         if (!this.state.username) {
             return this.setState({ error: 'Username is required' });
         }
@@ -124,7 +136,7 @@ export default class Login extends Component {
         }
         this.addUser();
 
-        return this.setState({ error: '' });
+        this.clearMsgState();
     }
 
 
@@ -145,19 +157,14 @@ export default class Login extends Component {
 
 
     // Sets state of error to empty 
-    dismissError = () => {
-        this.setState({ error: '' });
-    }
-
-     // Sets state of error to empty 
-     dismissSuccess = () => {
-        this.setState({ msg: '' });
+    dismissMsg = () => {
+        this.clearMsgState();
     }
 
     render() {
         return (
             <div>
-                <LoginDiv handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissError={this.dismissError} handleSignup={this.handleSignup} dismissSuccess={this.dismissSuccess}/>
+                <LoginDiv handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissMsg={this.dismissMsg} handleSignup={this.handleSignup} />
             </div>
         );
     }
