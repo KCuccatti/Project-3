@@ -1,8 +1,6 @@
 .content {
-    wifdth: 75%;
     background-color: white;
-    margin-left:0px;
-    
+    margin-left:20px;
 }
 
 .choices {
@@ -14,7 +12,7 @@
 }
 
 .buttons {
-    text-align:left;
+    text-align:center;
 }
 
 .choice {
@@ -31,4 +29,12 @@
 
 .categoryHeading {
     color: blue;
+}
+
+.btnPrev {
+    width: 100px;
+}
+
+.btnNext {
+    width: 100px;
 }

@@ -7,21 +7,19 @@ export default class card extends Component {
     super(props)
     this.state = {
       loggedIn: '',
-      currentCategory: ''
+      currentCategory: '1',
+      currentCategoryDesc: 'Quantum'
     };
   }
 
-
   render() {
-    console.log("Value of currentCategory in Card.jsx" + this.props.currentCategory);
-    var currentCategory = this.props.currentCategory;
-
+    console.log("currentCategoryDesc in Card: " + this.props.currentCategoryDesc)
     return (
         <div>
           {
             this.props.loggedIn ?
               <Card className="card">
-                 <Content  currentCategory={this.props.currentCategory} />
+                 <Content categories={this.props.categories} questions={this.props.questions} currentCategory={this.props.currentCategory} currentCategoryDesc={this.props.currentCategoryDesc} />
               </Card>
               : ""
           }

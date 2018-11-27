@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './Content.css';
 import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import fetch from 'node-fetch';
-
 
 export default class Content extends Component {
 
@@ -16,46 +14,21 @@ export default class Content extends Component {
             answer: '',
             showNextButton: true,
             showPreviousButton: false,
-            currentCategory: ''
+            currentCategory: '1',
+            currentCategoryDesc: 'Quantum'
         };
     }
 
-
-    componentWillReceiveProps() {
-        console.log("HERE IS A MESSAGE: " + this.state.currentCategory);
-
-       // this.setState({currentCategory: this.props.currentCategory})
-
-        if (this.state.currentCategory) {
-            this.getQuestions(this.state.currentCategory);
-        } else {
-           this.getQuestions("1");
-        }
+    componentDidMount() {
+        console.log(this.props.questions)
     }
-   
-
-    togglePreviousBtn = () => {
-        if (this.state.questionNumber > 0) {
-            this.setState({ showPreviousButton: true })
-        }
-    }
-
-    toggleNextBtn = () => {
-        if (this.state.questionNumber > 4) {
-            this.setState({ showPreviousButton: false })
-        }
-    }
-
-
-    //  getCurrentCategory(aPropertyValue) {
-    //      this.props.callback(aPropertyValue);
-
-    //  }
-
-
-
+    // ****************************************************************
+    // Set state of answer to value of selected choie. On change of answer 
+    // choice, if the user selects the correct answer, change class to 
+    // CorrectAnswer to make text green. Otherwise, change it to red.
+    // ****************************************************************
     handleAnswerChange = (evt) => {
-        if (evt.target.value === this.state.questions[this.state.questionNumber].answer) {
+        if (evt.target.value === this.props.questions[this.state.questionNumber].answer) {
             evt.target.nextElementSibling.className = "correctAnswer";
         } else {
             evt.target.nextElementSibling.className = "incorrectAnswer";
@@ -65,45 +38,77 @@ export default class Content extends Component {
         });
     }
 
+    // ************************************************************
+    // Show the next question and increment state of questionNumber
+    // on click of 'Next' button as long as there is another question
+    // ************************************************************
     handleNextClick = () => {
-
         if (this.state.questionNumber < 4) {
             this.setState({ questionNumber: this.state.questionNumber + 1 })
         }
     }
 
+    // ****************************************************************
+    // Decrement state of questionNumber when 'Previos' button is clicked
+    // as long as state of question number > 0
+    // ****************************************************************
     handlePreviousClick = () => {
         if (this.state.questionNumber > 0) {
             this.setState({ questionNumber: this.state.questionNumber - 1 })
         }
     }
 
-
-    getQuestions = (aCategory) => {
-        console.log("Fetching questions from database for category: " + aCategory);
-        console.log("********************************************");
-        fetch(`/api/GetQuestions/${aCategory}`)
-        .then(response => response.json())
-        .then(data => this.setState({ questions: data }))
+    // *******************************************************
+    // Toggle between showing and hiding the 'Previous' button
+    // based on what question the user is on
+    // *******************************************************
+    togglePreviousBtn = () => {
+        if (this.state.questionNumber > 0) {
+            this.setState({ showPreviousButton: true })
+        }
     }
 
+    // *******************************************************
+    // Toggle between showing and hiding the 'Next' button
+    // based on what question the user is on
+    // *******************************************************
+    toggleNextBtn = () => {
+        if (this.state.questionNumber > 4) {
+            this.setState({ showPreviousButton: false })
+        }
+    }
 
-    getCurrentCategory(aPropertyValue) {
-        console.log("The property value in getCurrentCategory" + aPropertyValue);
-        // Pass the currently selected category to the parent (App) Component
-        this.props.callback(aPropertyValue);
-      }
-    
-    
     render() {
+        console.log(this.state.categories);
+        console.log("currentCategoryDesc in Content: " + this.props.currentCategoryDesc);
         return (
+            <div>
             <div className="content">
 
-                <h2 className="categoryHeading">Category <i>Electromagnatism</i></h2><br></br>
+                <h2>{this.props.currentCategoryDesc}</h2>
+                <br></br>
+
+                <div className="buttons ">
+                    {
+                        this.state.questionNumber > 0 ?
+
+                            <Button onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
+                            : ""
+                    }
+
+                    {
+                        this.state.questionNumber < 4 ?
+
+                            <Button onClick={this.handleNextClick} className="btnNext" color="primary">Next</Button>
+                            : ""
+                    }
+                </div>
+                <hr></hr>
 
                 {
-                    this.state.questions.map((question, index) =>
+                    this.props.questions.map((question, index) =>
                         index === this.state.questionNumber ?
+
 
                             <div key={index}>
                                 <div className="question">
@@ -125,30 +130,11 @@ export default class Content extends Component {
                             : ""
                     )
                 }
-
-                <div className="buttons ">
-                    {
-                        this.state.questionNumber > 0 ?
-
-                            <Button showOrNotShowNextButton={this.showOrNotShowPreviousButton} onClick={this.handlePreviousClick} className="mr-3" color="primary">Previous</Button>
-                            : ""
-                    }
-
-                    {
-                        this.state.questionNumber < 4 ?
-
-                            <Button onClick={this.handleNextClick} color="primary">Next</Button>
-                            : ""
-                    }
-
                 </div>
+
             </div>
 
         )
     }
 }
 
-
-//  Content.propTypes = {
-//      callback: PropTypes.func,
-//    }

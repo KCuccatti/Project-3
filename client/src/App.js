@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import Card from '../src/components/smart/Card/Card.jsx';
 import Sidebar from '../src/components/dumb/Sidebar/Sidebar.jsx';
-
+import axios from "axios";
 class App extends Component {
 
   constructor() {
@@ -12,10 +12,26 @@ class App extends Component {
     this.state = {
       loggedIn: '',
       categories: [],
-      currentCategory: ''
+      questions:[],
+      currentCategory: '1',
+      currentCategoryDesc: 'Quantum'
     };
   }
 
+  //***********************************************************
+  // Default to the first Category when component first mounts
+  //***********************************************************
+  componentDidMount = () => {
+    this.getQuestions(1);
+  }
+
+  getQuestions = (aCategory) => {
+    console.log("Fetching questions from database for category: " + aCategory);
+    console.log("********************************************");
+    axios.get(`/api/GetQuestions/${aCategory}`)
+    .then((response)=>{console.log(response); this.setState({questions:response.data})})
+    
+}
   //**************************************************************************
   // Callback function will be called from Login Component to pass back the 
   // loggedIn state.
@@ -41,23 +57,36 @@ class App extends Component {
   // currentCategory state.
   //**************************************************************************
   passCurrentCategory = (params) => {
-    console.log("Here is the current Category in App.js" + params);
     this.setState({
       currentCategory: params
     })
   }
 
-  render() {
+//**************************************************************************
+  // Callback function will be called from Sidebar Component to pass back the 
+  // currentCategory description state.
+  //**************************************************************************
+  passCurrentCategoryDesc = (params) => {
+    this.setState({
+      currentCategoryDesc: params
+    })
+  }
+
+
+
+
+  render() {    
     let currentCategory = this.state.currentCategory;
+    console.log("curentCategoryDescription: " + this.state.currentCategoryDesc);
     return (
       <div className="App" >
         <Login callback={this.passLoggedInState.bind(this)} />
         {
           this.state.loggedIn ?
-            <Sidebar callback={this.passCategoriesState && this.passCurrentCategory} />
+            <Sidebar getQuestions={this.getQuestions} callback={this.passCategoriesState && this.passCurrentCategory && this.passCurrentCategoryDesc} />
             : ""
         }
-        <Card loggedIn={this.state.loggedIn} currentCategory={currentCategory} />
+        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategory={currentCategory} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc}/>
       </div>
 
     );

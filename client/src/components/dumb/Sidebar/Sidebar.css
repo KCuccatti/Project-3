@@ -32,6 +32,10 @@
     background-color: rgb(73, 18, 202)
 }
 
+.sidebarBtn:active {
+    background-color: red;
+}
+
 .sidebarImg {
     margin-top: 10px;
 }
