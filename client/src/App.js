@@ -18,54 +18,52 @@ class App extends Component {
     };
   }
 
-  //***********************************************************
+  // ***********************************************************
   // Default to the first Category when component first mounts
-  //***********************************************************
+  // ***********************************************************
   componentDidMount = () => {
     this.getQuestions(1);
   }
 
   getQuestions = (aCategory) => {
-    console.log("Fetching questions from database for category: " + aCategory);
-    console.log("********************************************");
     axios.get(`/api/GetQuestions/${aCategory}`)
-    .then((response)=>{console.log(response); this.setState({questions:response.data})})
+    .then((response)=>{this.setState({questions:response.data})})
     
 }
-  //**************************************************************************
+  // **************************************************************************
   // Callback function will be called from Login Component to pass back the 
   // loggedIn state.
-  //**************************************************************************
+  // *************************************************************************
   passLoggedInState = (params) => {
     this.setState({
       loggedIn: params
     })
   }
 
-  //**************************************************************************
+  // **************************************************************************
   // Callback function will be called from Sidebar Component to pass back the 
   // categories state.
-  //**************************************************************************
+  // **************************************************************************
   passCategoriesState = (params) => {
     this.setState({
       categories: params
     })
   }
 
-  //**************************************************************************
+  // **************************************************************************
   // Callback function will be called from Sidebar Component to pass back the 
   // currentCategory state.
-  //**************************************************************************
+  // **************************************************************************
   passCurrentCategory = (params) => {
     this.setState({
       currentCategory: params
     })
   }
 
-//**************************************************************************
+  // **************************************************************************
   // Callback function will be called from Sidebar Component to pass back the 
   // currentCategory description state.
-  //**************************************************************************
+  // **************************************************************************
   passCurrentCategoryDesc = (params) => {
     this.setState({
       currentCategoryDesc: params
@@ -73,11 +71,8 @@ class App extends Component {
   }
 
 
-
-
-  render() {    
+  render() {
     let currentCategory = this.state.currentCategory;
-    console.log("curentCategoryDescription: " + this.state.currentCategoryDesc);
     return (
       <div className="App" >
         <Login callback={this.passLoggedInState.bind(this)} />

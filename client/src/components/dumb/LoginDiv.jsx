@@ -1,9 +1,14 @@
 import React from 'react';
 import Logo from '../../resources/image/physicsLogo.png';
+import { Container, Row, Col } from 'reactstrap';
+import PropTypes from 'prop-types';
+
+
 
 const loginDiv = (props) => {
 
     return (
+        <Container>
         <div className="login-div mx-auto">
             
             {/* Hide when user logged in */}
@@ -51,7 +56,13 @@ const loginDiv = (props) => {
             }
             
         </div>
+        </Container>
     )
 }
+
+Container.propTypes = {
+    fluid:  PropTypes.bool
+    // applies .container-fluid class
+  }
 
 export default loginDiv;

@@ -20,7 +20,7 @@ export default class Login extends Component {
     }
     
     // ***************************************************************
-    // Pass the loggedIn state up to the parent (App) component
+    // Pass the loggedIn up to the parent (App) component
     // ***************************************************************
     getLoggedInState(aPropertyValue) {
         this.props.callback(aPropertyValue);
@@ -69,11 +69,11 @@ export default class Login extends Component {
         evt.preventDefault();
 
         if (!this.state.username) {
-            return this.setState({ error: 'Username is required' });
+            return this.setState({ error: ' Username is required' });
         }
 
         if (!this.state.password) {
-            return this.setState({ error: 'Password is required' });
+            return this.setState({ error: ' Password is required' });
         }
         this.addUser();
 

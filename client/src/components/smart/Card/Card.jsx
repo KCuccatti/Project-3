@@ -13,9 +13,8 @@ export default class card extends Component {
   }
 
   render() {
-    console.log("currentCategoryDesc in Card: " + this.props.currentCategoryDesc)
     return (
-        <div>
+        <div >
           {
             this.props.loggedIn ?
               <Card className="card">
