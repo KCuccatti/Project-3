@@ -14,7 +14,8 @@ class App extends Component {
       categories: [],
       questions:[],
       currentCategory: '1',
-      currentCategoryDesc: 'Quantum'
+      currentCategoryDesc: 'Quantum',
+      questionNumber: ''
     };
   }
 
@@ -70,18 +71,30 @@ class App extends Component {
     })
   }
 
+  // **************************************************************************
+  // Callback function will be called from Sidebar Component to pass back the 
+  // questionNumber state.
+  // *************************************************************************
+  passQuestionNumberState = (params) => {
+    console.log(params.questionNumber);
+    this.setState({
+      questionNumber: params
+    })
+  }
+
 
   render() {
+    console.log("Current state of questionNumber in app" + this.state.questionNumber);
     let currentCategory = this.state.currentCategory;
     return (
       <div className="App" >
         <Login callback={this.passLoggedInState.bind(this)} />
         {
           this.state.loggedIn ?
-            <Sidebar getQuestions={this.getQuestions} callback={this.passCategoriesState && this.passCurrentCategory && this.passCurrentCategoryDesc} />
+            <Sidebar getQuestions={this.getQuestions} callback={this.passCategoriesState && this.passCurrentCategory && this.passCurrentCategoryDesc && this.passQuestionNumberState} />
             : ""
         }
-        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategory={currentCategory} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc}/>
+        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategory={currentCategory} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber}/>
       </div>
     );
   }

@@ -8,17 +8,19 @@ export default class card extends Component {
     this.state = {
       loggedIn: '',
       currentCategory: '1',
-      currentCategoryDesc: 'Quantum'
+      currentCategoryDesc: 'Quantum',
+      questionNumber: ''
     };
   }
 
   render() {
+    console.log("Question number in card jsx" + this.props.questionNumber);
     return (
         <div >
           {
             this.props.loggedIn ?
               <Card className="card">
-                 <Content categories={this.props.categories} questions={this.props.questions} currentCategory={this.props.currentCategory} currentCategoryDesc={this.props.currentCategoryDesc} />
+                 <Content categories={this.props.categories} questions={this.props.questions} currentCategory={this.props.currentCategory} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber}/>
               </Card>
               : ""
           }

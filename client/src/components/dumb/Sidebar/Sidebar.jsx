@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-
 import './Sidebar.css';
 
 
 export default class Sidebar extends Component {
-
   constructor(props) {
     super(props)
 
     this.state = {
       categories: [],
       currentCategory: '1',
-      currentCategoryDesc: 'Quantum'
+      currentCategoryDesc: 'Quantum',
+      questionNumber: 0
     };
   }
 
@@ -23,9 +22,11 @@ export default class Sidebar extends Component {
   // props of value for category to be used for the callback in App.js
   // **********************************************************************
   handleCategoryClick = (evt) => {
+    this.setState({questionNumber: 0});
     this.setState({ currentCategory: evt.target.getAttribute('category') });
     this.getCurrentCategory(evt.target.getAttribute('category'));
     this.getCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
+    this.getQuestionNumber(this.state.questionNumber);
   }
 
   // **********************************************************
@@ -45,6 +46,12 @@ export default class Sidebar extends Component {
     this.props.callback(aPropertyValue);
   }
 
+  // **********************************************************
+  // Pass questionNumber up to parent (App) component
+  // **********************************************************
+  getQuestionNumber(aPropertyValue) {
+    this.props.callback(aPropertyValue);
+  }
 
   // *********************************************************
   // When component mounts, fetch categories from back end, and

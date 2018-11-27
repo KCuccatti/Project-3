@@ -2,21 +2,25 @@ import React, { Component } from 'react';
 import './Content.css';
 import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import Score from '../dumb/Score.jsx';
 
 export default class Content extends Component {
-
     constructor(props) {
         super(props)
-
         this.state = {
             questions: [],
             questionNumber: 0,
             answer: '',
-            disableNextButton: false,
-            disablePreviousButton: true,
             currentCategory: '1',
-            currentCategoryDesc: 'Quantum'
+            currentCategoryDesc: 'Quantum',
+            currentScore: 0
         };
+    }
+
+    componentDidMount() {
+        this.setState({
+            questions: this.props.questions
+        })
     }
 
     // ****************************************************************
@@ -27,8 +31,10 @@ export default class Content extends Component {
     handleAnswerChange = (evt) => {
         if (evt.target.value === this.props.questions[this.state.questionNumber].answer) {
             evt.target.nextElementSibling.className = "correctAnswer";
+            this.setState({ currentScore: this.state.currentScore + 1 });
         } else {
             evt.target.nextElementSibling.className = "incorrectAnswer";
+            this.setState({ currentScore: this.state.currentScore - .25 });
         }
         this.setState({
             answer: evt.target.value,
@@ -39,11 +45,14 @@ export default class Content extends Component {
     // Show the next question and increment state of questionNumber
     // on click of 'Next' button as long as there is another question
     // ************************************************************
-    handleNextClick = () => {
-        if (this.state.questionNumber < 4) {
+    handleNextClick = (event) => {
+        event.preventDefault();
+        let limit = (this.state.questions.length);
+        if (this.state.questionNumber <= limit) {
             this.setState({ questionNumber: this.state.questionNumber + 1 })
+        } else {
+            alert(this.state.currentScore);
         }
-        //this.toggleNavButtons();
     }
 
     // ****************************************************************
@@ -56,65 +65,47 @@ export default class Content extends Component {
         }
     }
 
-    // *******************************************************
-    // Toggle between disabling the previous/next buttons
-    // *******************************************************
-    toggleNavButtons = () => {
-        if (this.state.questionNumber > 0) {
-            this.setState({ disablePreviousButton: false })
-        } else {
-            this.setState({ disablePreviousButton: true })
-        }
-        
-        if (this.state.questionNumber >= 4) {
-            this.setState({ disableNextButton: true })
-        } else {
-            this.setState({ disableNextButton: false })
-        }
-    }
-    
-
     render() {
+        console.log("questionNumber in content.jsx" + this.state.questionNumber);
         return (
             <div>
-                <div className="content">
-                    <h2>{this.props.currentCategoryDesc}</h2>
-                    <br></br>
 
-                    <div onClick={this.toggleNavButtons} className="buttons">
-                        {this.state.disablePreviousButton ?
-                            <Button disabled onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
-                            :
+                {this.props.questionNumber <= 4 ?
+                    <div className="content">
+                        <h2>{this.props.currentCategoryDesc}</h2>
+                        <br></br>
+
+                        <div className="buttons">
                             <Button onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
-                        }
 
-                        {this.state.disableNextButton ?
-                            <Button disabled onClick={this.handleNextClick} className="btnNext" color="primary">Next</Button>
-                            :
                             <Button onClick={this.handleNextClick} className="btnNext" color="primary">Next</Button>
+                        </div>
+                        <hr></hr>
+
+                        {
+                            this.props.questions.map((question, index) =>
+                                index === this.state.questionNumber ?
+                                    <div key={index}>
+                                        <div className="question">
+                                            <h3>{question.question_text}</h3>
+                                        </div>
+
+                                        <div className="choices">
+                                            <input id="choice1" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="A" /><label>{question.choices[0].choice}</label><br></br>
+                                            <input id="choice2" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="B" /><label>{question.choices[1].choice}</label><br></br>
+                                            <input id="choice3" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="C" /><label>{question.choices[2].choice}</label><br></br>
+                                            <input id="choice4" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="D" /><label>{question.choices[3].choice}</label><br></br>
+                                        </div> <br></br>
+                                    </div>
+                                    : ""
+                            )
                         }
                     </div>
-                    <hr></hr>
+                    :
+                    <Score test={this.state} />
+                }
 
-                    {
-                        this.props.questions.map((question, index) =>
-                            index === this.state.questionNumber ?
-                                <div key={index}>
-                                    <div className="question">
-                                        <h3>{question.question_text}</h3>
-                                    </div>
 
-                                    <div className="choices">
-                                        <input id="choice1" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="A" /><label>{question.choices[0].choice}</label><br></br>
-                                        <input id="choice2" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="B" /><label>{question.choices[1].choice}</label><br></br>
-                                        <input id="choice3" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="C" /><label>{question.choices[2].choice}</label><br></br>
-                                        <input id="choice4" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="D" /><label>{question.choices[3].choice}</label><br></br>
-                                    </div> <br></br>
-                                </div>
-                                : ""
-                        )
-                    }
-                </div>
             </div>
         )
     }
