@@ -41,12 +41,9 @@ export default class Content extends Component {
     // ************************************************************
     handleNextClick = () => {
         if (this.state.questionNumber < 4) {
-            this.setState({ questionNumber: this.state.questionNumber + 1 },
-                () => {
-                    this.props.changeDisa
-                })
+            this.setState({ questionNumber: this.state.questionNumber + 1 })
         }
-        this.toggleNavButtons();
+        //this.toggleNavButtons();
     }
 
     // ****************************************************************
@@ -57,14 +54,12 @@ export default class Content extends Component {
         if (this.state.questionNumber > 0) {
             this.setState({ questionNumber: this.state.questionNumber - 1 })
         }
-        this.toggleNavButtons();
     }
 
     // *******************************************************
     // Toggle between disabling the previous/next buttons
     // *******************************************************
     toggleNavButtons = () => {
-        alert(this.state.questionNumber + "  -  " + this.state.disablePreviousButton + "  -   " + this.state.disableNextButton);
         if (this.state.questionNumber > 0) {
             this.setState({ disablePreviousButton: false })
         } else {
@@ -77,6 +72,7 @@ export default class Content extends Component {
             this.setState({ disableNextButton: false })
         }
     }
+    
 
     render() {
         return (
@@ -85,7 +81,7 @@ export default class Content extends Component {
                     <h2>{this.props.currentCategoryDesc}</h2>
                     <br></br>
 
-                    <div className="buttons">
+                    <div onClick={this.toggleNavButtons} className="buttons">
                         {this.state.disablePreviousButton ?
                             <Button disabled onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
                             :

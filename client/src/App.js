@@ -83,7 +83,6 @@ class App extends Component {
         }
         <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategory={currentCategory} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc}/>
       </div>
-
     );
   }
 }
