@@ -3,6 +3,8 @@ import './Content.css';
 import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import Score from '../dumb/Score.jsx';
+import PropTypes from 'prop-types';
+import Submit from '../dumb/Submit.jsx';
 
 export default class Content extends Component {
     constructor(props) {
@@ -11,13 +13,16 @@ export default class Content extends Component {
             questions: [],
             questionNumber: 0,
             answer: '',
+            userSubmittedChoice:"",
             currentCategory: '1',
             currentCategoryDesc: 'Quantum',
-            currentScore: 0
+            currentScore: 0,
+            showScore: false
         };
     }
 
     componentDidMount() {
+        console.log(this.props)
         this.setState({
             questions: this.props.questions
         })
@@ -38,6 +43,7 @@ export default class Content extends Component {
         }
         this.setState({
             answer: evt.target.value,
+            userSubmittedChoice:evt.target.value
         });
     }
 
@@ -50,8 +56,6 @@ export default class Content extends Component {
         let limit = (this.state.questions.length);
         if (this.state.questionNumber <= limit) {
             this.setState({ questionNumber: this.state.questionNumber + 1 })
-        } else {
-            alert(this.state.currentScore);
         }
     }
 
@@ -66,11 +70,11 @@ export default class Content extends Component {
     }
 
     render() {
-        console.log("questionNumber in content.jsx" + this.state.questionNumber);
+        //alert("Question number props in content jsx" + this.props.questionNumber); 
+        //alert("Question number in cotent jsx" + this.state.questionNumber);
         return (
             <div>
-
-                {this.props.questionNumber <= 4 ?
+                {this.state.questionNumber <= 4 ?
                     <div className="content">
                         <h2>{this.props.currentCategoryDesc}</h2>
                         <br></br>
@@ -78,7 +82,10 @@ export default class Content extends Component {
                         <div className="buttons">
                             <Button onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
 
+                        {this.state.questionNumber < 4 ?
                             <Button onClick={this.handleNextClick} className="btnNext" color="primary">Next</Button>
+                            : <Submit onClick={this.handleNextClick}/>
+                        }
                         </div>
                         <hr></hr>
 
@@ -104,10 +111,11 @@ export default class Content extends Component {
                     :
                     <Score test={this.state} />
                 }
-
-
             </div>
         )
     }
 }
 
+Content.propTypes = {
+    callback: PropTypes.func,
+}

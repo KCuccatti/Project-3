@@ -22,7 +22,7 @@ export default class Login extends Component {
     // ***************************************************************
     // Pass the loggedIn up to the parent (App) component
     // ***************************************************************
-    getLoggedInState(aPropertyValue) {
+    passLoggedInState(aPropertyValue) {
         this.props.callback(aPropertyValue);
     }
 
@@ -109,7 +109,7 @@ export default class Login extends Component {
                 this.conditionalLogin();
                 
                 // pass loggedIn state to parent (App Component)
-                this.getLoggedInState(this.state.loggedIn); 
+                this.passLoggedInState(this.state.loggedIn); 
             })
     }
 

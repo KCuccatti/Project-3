@@ -12,7 +12,7 @@ export default class Sidebar extends Component {
       categories: [],
       currentCategory: '1',
       currentCategoryDesc: 'Quantum',
-      questionNumber: 0
+     // questionNumber: ''
     };
   }
 
@@ -22,18 +22,17 @@ export default class Sidebar extends Component {
   // props of value for category to be used for the callback in App.js
   // **********************************************************************
   handleCategoryClick = (evt) => {
-    this.setState({questionNumber: 0});
+    this.setState({questionNumber: 0})
     this.setState({ currentCategory: evt.target.getAttribute('category') });
-    this.getCurrentCategory(evt.target.getAttribute('category'));
-    this.getCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
-    this.getQuestionNumber(this.state.questionNumber);
+    this.passCurrentCategory(evt.target.getAttribute('category'));
+    this.passCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
+    //this.passQuestionNumberToParent(this.setState({questionNumber: 0}));
   }
 
   // **********************************************************
   // Pass currentCategory up to parent (App) component
   // **********************************************************
-  getCurrentCategory(aPropertyValue) {
-    // Pass the currently selected category to the parent (App) Component
+  passCurrentCategory(aPropertyValue) {
     this.props.callback(aPropertyValue);
     this.props.getQuestions(aPropertyValue);
   }
@@ -41,17 +40,15 @@ export default class Sidebar extends Component {
   // **********************************************************
   // Pass currentCategoryDesc up to parent (App) component
   // **********************************************************
-  getCurrentCategoryDesc(aPropertyValue) {
-    // Pass the currently selected category desc to the parent (App) Component
+  passCurrentCategoryDesc(aPropertyValue) {
     this.props.callback(aPropertyValue);
   }
 
-  // **********************************************************
-  // Pass questionNumber up to parent (App) component
-  // **********************************************************
-  getQuestionNumber(aPropertyValue) {
-    this.props.callback(aPropertyValue);
-  }
+/*
+   passQuestionNumberToParent(aPropertyValue) {
+     this.props.callback(aPropertyValue);
+   }
+   */
 
   // *********************************************************
   // When component mounts, fetch categories from back end, and

@@ -8,17 +8,17 @@ const Score = (props) => {
         
         <div className="score">
             <h3>Test Results</h3>
-            {props.test.currentScore >= 4 ?
+            {props.test.currentScore > 3.6 ?
                 <label>Congratulations... You scored a {props.test.currentScore}.</label>
                 : ""
             }
 
-            {props.test.currentScore>=3 ?
+            {props.test.currentScore < 3.5 ?
                 <label>Not too bad, but you can do better... You scored a {props.test.currentScore}.</label>
                 : ""
             }
             
-            {props.test.currentScore<3 ?
+            {props.test.currentScore < 3 ?
                 <label>Looks like somebody didn't study hard enough... You scored a {props.test.currentScore}.</label>
                 : ""
             }
