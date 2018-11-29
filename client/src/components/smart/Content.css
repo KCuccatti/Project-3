@@ -11,20 +11,8 @@
     text-align:left;
 }
 
-.buttons {
-    text-align:center;
-}
-
 .choice {
     color: black;
-}
-
-.correctAnswer {
-    color: green;
-}
-
-.incorrectAnswer {
-    color: red;
 }
 
 .categoryHeading {

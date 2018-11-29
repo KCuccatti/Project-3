@@ -26,11 +26,15 @@ class App extends Component {
     this.getQuestions(1);
   }
 
+  // **********************************************************
+  // Get questions from db and set state of questions to response
+  // **********************************************************
   getQuestions = (aCategory) => {
     axios.get(`/api/GetQuestions/${aCategory}`)
       .then((response) => { this.setState({ questions: response.data }) })
 
   }
+
   //**************************************************************************
   // Callback function will be called from Login Component to pass back the 
   // loggedIn state.
@@ -71,16 +75,8 @@ class App extends Component {
     })
   }
 
-  /*
-   getQuestionNumber = (params) => {
-     this.setState({
-       questionNumber: params
-     })
-  }
-  */
 
   render() {
-    // alert(this.state.questionNumber);
     let currentCategory = this.state.currentCategory;
     return (
       <div className="App" >

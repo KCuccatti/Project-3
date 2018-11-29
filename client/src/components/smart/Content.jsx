@@ -3,8 +3,6 @@ import './Content.css';
 import { Button } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import Score from '../dumb/Score.jsx';
-import PropTypes from 'prop-types';
-import Submit from '../dumb/Submit.jsx';
 
 export default class Content extends Component {
     constructor(props) {
@@ -13,19 +11,35 @@ export default class Content extends Component {
             questions: [],
             questionNumber: 0,
             answer: '',
-            userSubmittedChoice:"",
+            userSubmittedChoice: "",
+            evaluated: true,
             currentCategory: '1',
             currentCategoryDesc: 'Quantum',
             currentScore: 0,
-            showScore: false
         };
     }
 
+    // *******************************************************
+    // When component mounts, set state of questions to questions
+    // coming from above parent components.
+    // *******************************************************
     componentDidMount() {
         console.log(this.props)
         this.setState({
             questions: this.props.questions
         })
+    }
+
+    // *******************************************************
+    // Checks user answer compared to answer from db. If correct
+    // incremenet user score by one, else decrement by one.
+    evaluateAnswer = (evt) => {
+        evt.preventDefault();
+        if (this.state.userSubmittedChoice === this.state.questions[this.state.questionNumber].answer) {
+            this.setState({ currentScore: this.state.currentScore + 1, evaluated: true, questionNumber: this.state.questionNumber + 1 });
+        } else {
+            this.setState({ currentScore: this.state.currentScore - 1, evaluated: true, questionNumber: this.state.questionNumber + 1 });
+        }
     }
 
     // ****************************************************************
@@ -34,16 +48,9 @@ export default class Content extends Component {
     // CorrectAnswer to make text green. Otherwise, change it to red.
     // ****************************************************************
     handleAnswerChange = (evt) => {
-        if (evt.target.value === this.props.questions[this.state.questionNumber].answer) {
-            evt.target.nextElementSibling.className = "correctAnswer";
-            this.setState({ currentScore: this.state.currentScore + 1 });
-        } else {
-            evt.target.nextElementSibling.className = "incorrectAnswer";
-            this.setState({ currentScore: this.state.currentScore - .25 });
-        }
         this.setState({
             answer: evt.target.value,
-            userSubmittedChoice:evt.target.value
+            userSubmittedChoice: evt.target.value
         });
     }
 
@@ -70,23 +77,12 @@ export default class Content extends Component {
     }
 
     render() {
-        //alert("Question number props in content jsx" + this.props.questionNumber); 
-        //alert("Question number in cotent jsx" + this.state.questionNumber);
         return (
             <div>
                 {this.state.questionNumber <= 4 ?
                     <div className="content">
                         <h2>{this.props.currentCategoryDesc}</h2>
-                        <br></br>
 
-                        <div className="buttons">
-                            <Button onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
-
-                        {this.state.questionNumber < 4 ?
-                            <Button onClick={this.handleNextClick} className="btnNext" color="primary">Next</Button>
-                            : <Submit onClick={this.handleNextClick}/>
-                        }
-                        </div>
                         <hr></hr>
 
                         {
@@ -98,15 +94,24 @@ export default class Content extends Component {
                                         </div>
 
                                         <div className="choices">
-                                            <input id="choice1" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="A" /><label>{question.choices[0].choice}</label><br></br>
-                                            <input id="choice2" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="B" /><label>{question.choices[1].choice}</label><br></br>
-                                            <input id="choice3" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="C" /><label>{question.choices[2].choice}</label><br></br>
-                                            <input id="choice4" className="choice" onChange={this.handleAnswerChange} type="radio" name="answer" value="D" /><label>{question.choices[3].choice}</label><br></br>
-                                        </div> <br></br>
+                                            <input id="choice1" className={this.state.userSubmittedChoice === "A" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="A" /><label>{question.choices[0].choice}</label><br></br>
+                                            <input id="choice2" className={this.state.userSubmittedChoice === "B" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="B" /><label>{question.choices[1].choice}</label><br></br>
+                                            <input id="choice3" className={this.state.userSubmittedChoice === "C" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="C" /><label>{question.choices[2].choice}</label><br></br>
+                                            <input id="choice4" className={this.state.userSubmittedChoice === "D" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="D" /><label>{question.choices[3].choice}</label><br></br>
+
+
+                                        </div>
+
                                     </div>
                                     : ""
                             )
+
                         }
+                        <div className="btnDiv">
+                            <Button disabled={this.state.questionNumber > 0 ? false : true} onClick={this.handlePreviousClick} className="mr-3 btnPrev" color="primary">Previous</Button>
+
+                            <Button color="success" disabled={this.state.userSubmittedChoice ? false : true} onClick={this.evaluateAnswer}>Submit Answer</Button>
+                        </div>
                     </div>
                     :
                     <Score test={this.state} />
@@ -114,8 +119,4 @@ export default class Content extends Component {
             </div>
         )
     }
-}
-
-Content.propTypes = {
-    callback: PropTypes.func,
 }
