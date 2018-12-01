@@ -9,12 +9,12 @@ export default class card extends Component {
       loggedIn: '',
       currentCategory: '1',
       currentCategoryDesc: 'Quantum',
-      questionNumber: ''
+      questionNumber: 0
     };
   }
 
   render() {
-
+    // alert("Question Number in Card Is " + this.props.questionNumber);
     return (
         <div>
           {

@@ -14,8 +14,8 @@ class App extends Component {
       categories: [],
       questions: [],
       currentCategory: '1',
-     // questionNumber: '',
-      currentCategoryDesc: 'Quantum'
+      currentCategoryDesc: 'Quantum',
+      questionNumber: 0
     };
   }
 
@@ -32,7 +32,6 @@ class App extends Component {
   getQuestions = (aCategory) => {
     axios.get(`/api/GetQuestions/${aCategory}`)
       .then((response) => { this.setState({ questions: response.data }) })
-
   }
 
   //**************************************************************************
@@ -75,18 +74,29 @@ class App extends Component {
     })
   }
 
+  //**************************************************************************
+  // Callback function will be called from Sidebar Component to pass back the 
+  // questionNumber state.
+  //**************************************************************************
+  getQuestionNumber = (params) => {
+    this.setState({
+      questionNumber: params
+    })
+  }
+
 
   render() {
     let currentCategory = this.state.currentCategory;
+   // alert("questionNumber in App is " + this.state.questionNumber);
     return (
       <div className="App" >
         <Login callback={this.getLoggedInState} />
         {
           this.state.loggedIn ?
-            <Sidebar getQuestions={this.getQuestions} callback={this.getCategoriesState && this.getCurrentCategory && this.getCurrentCategoryDesc} />
+            <Sidebar getQuestions={this.getQuestions} callback={this.getCategoriesState && this.getCurrentCategory && this.getCurrentCategoryDesc} callbackForQuestionNumber={this.getQuestionNumber}/>
             : ""
         }
-        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategory={currentCategory} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} />
+        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategory={currentCategory} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber}/>
       </div>
     );
   }

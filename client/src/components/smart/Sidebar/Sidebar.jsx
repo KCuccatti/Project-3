@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
 import './Sidebar.css';
 
 
@@ -12,23 +11,11 @@ export default class Sidebar extends Component {
       categories: [],
       currentCategory: '1',
       currentCategoryDesc: 'Quantum',
-     // questionNumber: ''
+      questionNumber: 0
     };
   }
 
-  // **********************************************************************
-  // Handle what occurs on click of a category, set state of currentCategory
-  // to value of category attribute. Also, call getCurrentCategory to set 
-  // props of value for category to be used for the callback in App.js
-  // **********************************************************************
-  handleCategoryClick = (evt) => {
-    this.setState({questionNumber: 0})
-    this.setState({ currentCategory: evt.target.getAttribute('category') });
-    this.passCurrentCategory(evt.target.getAttribute('category'));
-    this.passCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
-    //this.passQuestionNumberToParent(this.setState({questionNumber: 0}));
-  }
-
+ 
   // **********************************************************
   // Pass currentCategory up to parent (App) component
   // **********************************************************
@@ -44,11 +31,23 @@ export default class Sidebar extends Component {
     this.props.callback(aPropertyValue);
   }
 
-/*
-   passQuestionNumberToParent(aPropertyValue) {
-     this.props.callback(aPropertyValue);
-   }
-   */
+  passCurrentQuestionNumber(aPropertyValue) {
+    this.props.callbackForQuestionNumber(aPropertyValue);
+  }
+
+
+ // **********************************************************************
+  // Handle what occurs on click of a category, set state of currentCategory
+  // to value of category attribute. Also, call getCurrentCategory to set 
+  // props of value for category to be used for the callback in App.js
+  // **********************************************************************
+  handleCategoryClick = (evt) => {
+    this.setState({ questionNumber: 0});
+    this.setState({ currentCategory: evt.target.getAttribute('category') });
+    this.passCurrentCategory(evt.target.getAttribute('category'));
+    this.passCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
+    this.passCurrentQuestionNumber(0); // pass up to App.js
+  }
 
   // *********************************************************
   // When component mounts, fetch categories from back end, and
@@ -78,5 +77,6 @@ export default class Sidebar extends Component {
 
 Sidebar.propTypes = {
   callback: PropTypes.func,
+  callbackForQuestionNumber: PropTypes.func
 }
 

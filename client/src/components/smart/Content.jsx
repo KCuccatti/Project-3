@@ -33,19 +33,18 @@ export default class Content extends Component {
     // *******************************************************
     // Checks user answer compared to answer from db. If correct
     // incremenet user score by one, else decrement by one.
+    // *******************************************************
     evaluateAnswer = (evt) => {
         evt.preventDefault();
         if (this.state.userSubmittedChoice === this.state.questions[this.state.questionNumber].answer) {
             this.setState({ currentScore: this.state.currentScore + 1, evaluated: true, questionNumber: this.state.questionNumber + 1 });
         } else {
-            this.setState({ currentScore: this.state.currentScore - 1, evaluated: true, questionNumber: this.state.questionNumber + 1 });
+            this.setState({ currentScore: this.state.currentScore + 0, evaluated: true, questionNumber: this.state.questionNumber + 1 });
         }
     }
 
     // ****************************************************************
-    // Set state of answer to value of selected choie. On change of answer 
-    // choice, if the user selects the correct answer, change class to 
-    // CorrectAnswer to make text green. Otherwise, change it to red.
+    // Set state of answer to value of selected choie. 
     // ****************************************************************
     handleAnswerChange = (evt) => {
         this.setState({
@@ -77,6 +76,8 @@ export default class Content extends Component {
     }
 
     render() {
+        alert("this.props.questionNumber in Content is " + this.props.questionNumber);
+        alert("this.state.questionNumber in Conent is " + this.state.questionNumber);
         return (
             <div>
                 {this.state.questionNumber <= 4 ?
@@ -98,10 +99,7 @@ export default class Content extends Component {
                                             <input id="choice2" className={this.state.userSubmittedChoice === "B" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="B" /><label>{question.choices[1].choice}</label><br></br>
                                             <input id="choice3" className={this.state.userSubmittedChoice === "C" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="C" /><label>{question.choices[2].choice}</label><br></br>
                                             <input id="choice4" className={this.state.userSubmittedChoice === "D" && this.state.evaluated ? "choice correctAnswer" : "choice"} onChange={this.handleAnswerChange} type="radio" name="answer" value="D" /><label>{question.choices[3].choice}</label><br></br>
-
-
                                         </div>
-
                                     </div>
                                     : ""
                             )
