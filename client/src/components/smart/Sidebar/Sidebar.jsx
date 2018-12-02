@@ -9,7 +9,7 @@ export default class Sidebar extends Component {
 
     this.state = {
       categories: [],
-      currentCategory: '1',
+      currentCategoryNumber: 1,
       currentCategoryDesc: 'Quantum',
       questionNumber: 0
     };
@@ -19,8 +19,8 @@ export default class Sidebar extends Component {
   // **********************************************************
   // Pass currentCategory up to parent (App) component
   // **********************************************************
-  passCurrentCategory(aPropertyValue) {
-    this.props.callback(aPropertyValue);
+  passCurrentCategoryNumber(aPropertyValue) {
+    this.props.callbackForCurrentCategoryNumber(aPropertyValue);
     this.props.getQuestions(aPropertyValue);
   }
 
@@ -31,24 +31,27 @@ export default class Sidebar extends Component {
     this.props.callback(aPropertyValue);
   }
 
+
+  
   passCurrentQuestionNumber(aPropertyValue) {
     this.props.callbackForQuestionNumber(aPropertyValue);
   }
 
 
- // **********************************************************************
+  // **********************************************************************
   // Handle what occurs on click of a category, set state of currentCategory
   // to value of category attribute. Also, call getCurrentCategory to set 
   // props of value for category to be used for the callback in App.js
   // **********************************************************************
   handleCategoryClick = (evt) => {
+    this.passCurrentQuestionNumber(0);
     this.setState({ questionNumber: 0});
-    this.setState({ currentCategory: evt.target.getAttribute('category') });
-    this.passCurrentCategory(evt.target.getAttribute('category'));
+    this.setState({ currentCategoryNumber: evt.target.getAttribute('category') });
+    this.passCurrentCategoryNumber(evt.target.getAttribute('category'));
     this.passCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
-    this.passCurrentQuestionNumber(0); // pass up to App.js
   }
 
+ 
   // *********************************************************
   // When component mounts, fetch categories from back end, and
   // set state of categories to data coming from back end
@@ -77,6 +80,7 @@ export default class Sidebar extends Component {
 
 Sidebar.propTypes = {
   callback: PropTypes.func,
-  callbackForQuestionNumber: PropTypes.func
+  callbackForQuestionNumber: PropTypes.func,
+  callbackForCurrentCategoryNumber: PropTypes.func
 }
 

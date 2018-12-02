@@ -13,7 +13,7 @@ export default class Content extends Component {
             answer: '',
             userSubmittedChoice: "",
             evaluated: true,
-            currentCategory: '1',
+            currentCategoryNumber: 1,
             currentCategoryDesc: 'Quantum',
             currentScore: 0,
         };
@@ -24,7 +24,6 @@ export default class Content extends Component {
     // coming from above parent components.
     // *******************************************************
     componentDidMount() {
-        console.log(this.props)
         this.setState({
             questions: this.props.questions
         })
@@ -76,8 +75,8 @@ export default class Content extends Component {
     }
 
     render() {
-        alert("this.props.questionNumber in Content is " + this.props.questionNumber);
-        alert("this.state.questionNumber in Conent is " + this.state.questionNumber);
+        alert("Question Number state/props in Content is :" + this.state.questionNumber + " - " + this.props.questionNumber);
+
         return (
             <div>
                 {this.state.questionNumber <= 4 ?
@@ -85,13 +84,12 @@ export default class Content extends Component {
                         <h2>{this.props.currentCategoryDesc}</h2>
 
                         <hr></hr>
-
                         {
                             this.props.questions.map((question, index) =>
                                 index === this.state.questionNumber ?
                                     <div key={index}>
                                         <div className="question">
-                                            <h3>{question.question_text}</h3>
+                                            <h3>{this.state.questionNumber}{question.question_text}</h3>
                                         </div>
 
                                         <div className="choices">
