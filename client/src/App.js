@@ -90,14 +90,14 @@ class App extends Component {
     return (
       <div className="App" >
         <Login callback={this.getLoggedInState} />
-        
+
         {
           this.state.loggedIn ?
-            <Sidebar handleCatClick={} getQuestions={this.getQuestions} callback={this.getCategoriesState && this.getCurrentCategoryDesc} callbackForQuestionNumber={this.getQuestionNumber} callbackForCurrentCategoryNumber={this.getCurrentCategoryNumber}/>
+            <Sidebar getQuestions={this.getQuestions} callback={this.getCategoriesState && this.getCurrentCategoryDesc} callbackForQuestionNumber={this.getQuestionNumber} callbackForCurrentCategoryNumber={this.getCurrentCategoryNumber} />
             : ""
         }
-        
-        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber}/>
+
+        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc}  questionNumber={this.state.questionNumber} />
       </div>
     );
   }

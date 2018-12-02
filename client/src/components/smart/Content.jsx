@@ -15,7 +15,7 @@ export default class Content extends Component {
             evaluated: true,
             currentCategoryNumber: 1,
             currentCategoryDesc: 'Quantum',
-            currentScore: 0,
+            currentScore: 0,    
         };
     }
 
@@ -25,7 +25,8 @@ export default class Content extends Component {
     // *******************************************************
     componentDidMount() {
         this.setState({
-            questions: this.props.questions
+            questions: this.props.questions,
+            questionNumber: 0
         })
     }
 
@@ -70,15 +71,15 @@ export default class Content extends Component {
     // ****************************************************************
     handlePreviousClick = () => {
         if (this.state.questionNumber > 0) {
-            this.setState({ questionNumber: this.state.questionNumber - 1 })
+            this.setState({ questionNumber: this.state.questionNumber - 1 });
         }
     }
-
+    
+   
     render() {
-        alert("Question Number state/props in Content is :" + this.state.questionNumber + " - " + this.props.questionNumber);
-
+        
         return (
-            <div>
+            <div>          
                 {this.state.questionNumber <= 4 ?
                     <div className="content">
                         <h2>{this.props.currentCategoryDesc}</h2>
@@ -86,7 +87,7 @@ export default class Content extends Component {
                         <hr></hr>
                         {
                             this.props.questions.map((question, index) =>
-                                index === this.state.questionNumber ?
+                                index === this.state.questionNumber ?  
                                     <div key={index}>
                                         <div className="question">
                                             <h3>{this.state.questionNumber}{question.question_text}</h3>

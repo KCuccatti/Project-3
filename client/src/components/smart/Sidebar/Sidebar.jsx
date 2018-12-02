@@ -15,7 +15,7 @@ export default class Sidebar extends Component {
     };
   }
 
- 
+
   // **********************************************************
   // Pass currentCategory up to parent (App) component
   // **********************************************************
@@ -32,7 +32,8 @@ export default class Sidebar extends Component {
   }
 
 
-  
+  // **********************************************************
+
   passCurrentQuestionNumber(aPropertyValue) {
     this.props.callbackForQuestionNumber(aPropertyValue);
   }
@@ -44,14 +45,12 @@ export default class Sidebar extends Component {
   // props of value for category to be used for the callback in App.js
   // **********************************************************************
   handleCategoryClick = (evt) => {
-    this.passCurrentQuestionNumber(0);
-    this.setState({ questionNumber: 0});
     this.setState({ currentCategoryNumber: evt.target.getAttribute('category') });
     this.passCurrentCategoryNumber(evt.target.getAttribute('category'));
     this.passCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
+    this.passCurrentQuestionNumber(0);
   }
 
- 
   // *********************************************************
   // When component mounts, fetch categories from back end, and
   // set state of categories to data coming from back end
@@ -62,14 +61,25 @@ export default class Sidebar extends Component {
       .then(data => this.setState({ categories: data }));
   }
 
+  // Needs work. Need to find a way to make content's question number state reset
+  // on click of a new category, but a new category click happens here, in sidebar.
+  resetQuestionNum = () => {
+    console.log("In resetQuestionNum");
+    console.log("currentCategory in resetQuestionNum is " + this.state.currentCategoryNumber);
+    if (this.props.currentCategoryNumber === '2') {
+      this.setState({ questionNumber: 0 });
+    }
+    console.log("Question number in content after resetQuestionNum runs" + this.state.questionNumber);
+  }
+
   render() {
     return (
-      <div className="category" >
+      <div className="category" onClick={this.resetQuestionNum}>
         <br></br>
         {
           this.state.categories.map((category, index) =>
             <div onClick={this.handleCategoryClick} className="sidebarBtn" category={index + 1} key={index} selectedcategory={category.description}>
-              <img className="sidebarImg" src={category.image_name} alt={category.description} width="60"/> {category.description}
+              <img className="sidebarImg" src={category.image_name} alt={category.description} width="60" /> {category.description}
             </div>
           )
         }

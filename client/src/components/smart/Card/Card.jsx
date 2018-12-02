@@ -7,23 +7,24 @@ export default class card extends Component {
     super(props)
     this.state = {
       loggedIn: '',
-      currentCategory: '1',
+      currentCategoryNumber: '1',
       currentCategoryDesc: 'Quantum',
       questionNumber: 0
     };
   }
 
   render() {
-
     return (
         <div>
+
           {
             this.props.loggedIn ?
               <Card className="card">
-                <Content categories={this.props.categories} questions={this.props.questions} currentCategory={this.props.currentCategory} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber} />
+                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc}  questionNumber={this.state.questionNumber} />
               </Card>
               : ""
           }
+
         </div>
     );
   }
