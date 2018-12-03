@@ -43,12 +43,9 @@
     margin-bottom: 20px;
 }
 
-label:hover {
-    color: red; 
+.BtnChangePsw:hover {
+    color: red;
     cursor: pointer;
-}
-
-.BtnChangePsw {
     font-size: .9em;
 }
 
@@ -64,6 +61,8 @@ label:hover {
 .btnCancelMembership {
     margin-top: -120px;
 }
+
+
 
 
 

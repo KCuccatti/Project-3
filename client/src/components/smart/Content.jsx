@@ -7,6 +7,7 @@ import Score from '../dumb/Score.jsx';
 export default class Content extends Component {
 state = {
             questions: [],
+            username: '',
             questionNumber: 0,
             answer: '',
             userSubmittedChoice: "",
@@ -21,7 +22,6 @@ state = {
     // coming from above parent components.
     // *******************************************************
     componentDidMount() {
-        console.log("Mounted")
         this.setState({
             questions: this.props.questions,
             questionNumber: this.props.questionNumber,
@@ -32,7 +32,7 @@ state = {
     // *******************************************************
     // Checks user answer compared to answer from db. If correct
     // incremenet user score by one, else decrement by one.
-    // *******************************************************
+    // ******************************************************* 
     evaluateAnswer = (evt) => {
         evt.preventDefault();
         if (this.state.userSubmittedChoice === this.state.questions[this.state.questionNumber].answer) {
@@ -74,15 +74,13 @@ state = {
         }
     }
 
-
     render() {
 
         return (
             <div>
-                {this.state.questionNumber}
-                {this.state.currentCategoryNumber}
                  {this.state.questionNumber <= 4 ?
                     <div className="content">
+                    <h2>Welcome{this.props.username}</h2>
                         <h2>{this.props.currentCategoryDesc}</h2>
 
                         <hr></hr>
@@ -91,7 +89,7 @@ state = {
                                 index === this.state.questionNumber ?
                                     <div key={index}>
                                         <div className="question">
-                                            <h3>{this.state.questionNumber}{question.question_text}</h3>
+                                            <h3>{question.question_text}</h3>
                                         </div>
 
                                         <div className="choices">

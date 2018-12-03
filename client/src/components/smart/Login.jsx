@@ -28,6 +28,10 @@ export default class Login extends Component {
         this.props.callback(aPropertyValue);
     }
 
+    passUsername(aPropertyValue) {
+        this.props.callback(aPropertyValue)
+    }
+
     // *************************************************************************
     // Handles what occurs on click of the login button. If no user or pass is detected
     // change state of error. Also call getUser function to grab user info from db
@@ -112,6 +116,7 @@ export default class Login extends Component {
 
                 // pass loggedIn state to parent (App Component)
                 this.passLoggedInState(this.state.loggedIn);
+                this.passUsername(this.state.username);
             })
     }
 
@@ -178,25 +183,25 @@ export default class Login extends Component {
     }
 
     submitNewPasswordFunc = () => {
-        if (!this.state.username) {
-            this.setState({ msg: '' });
-            return this.setState({ error: ' Username is required' });
-        }
-        if (!this.state.password) {
-            this.setState({ msg: '' });
-            return this.setState({ error: ' Password is required' });
-        }
-        
-        axios.put(`/api/updatePassword/${this.state.username}/${this.state.passsword}/${this.state.newPassword}/${this.state.srcSystemCode}`)
+        // if (!this.state.username) {
+        //     this.setState({ msg: '' });
+        //     return this.setState({ error: ' Username is required' });
+        // }
+        // if (!this.state.password) {
+        //     this.setState({ msg: '' });
+        //     return this.setState({ error: ' Password is required' });
+        // }
+        axios.put(`/api/updatePassword/${this.state.username}/${this.state.password}/${this.state.newPassword}/${this.state.srcSystemCode}`)
         .then((result) => {
             if (result.data.success) {
                 this.setState({ msg: 'Password Changed' });
             }
             else {
+                alert("Something wrong");
                 this.setState({ error: 'Error changing password' });
             }
         })
-    this.clearMsgState();
+        //this.clearMsgState();
         
     }
 

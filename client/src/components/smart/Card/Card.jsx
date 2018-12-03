@@ -14,15 +14,13 @@ export default class card extends Component {
   render() {
     return (
         <div>
-
           {
             this.props.loggedIn ?
               <Card className="card">
-                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber} />
+                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber} username={this.props.username}/>
               </Card>
               : ""
           }
-
         </div>
     );
   }

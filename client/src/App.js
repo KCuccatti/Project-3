@@ -11,6 +11,7 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: '',
+      username: '',
       categories: [],
       questions: [],
       currentCategoryNumber: 1,
@@ -79,11 +80,15 @@ class App extends Component {
   // questionNumber state.
   // **************************************************************************
   getQuestionNumber = (categoryNumber, questionNumberState) => {
-    console.log("Category number and question number in app on click of a new category " + categoryNumber, questionNumberState)
     this.setState({
       currentCategoryNumber:categoryNumber,
       questionNumber: questionNumberState
     })
+  }
+
+  getUsername = (params) => {
+    this.setState({username: params});
+    alert(this.state.username);
   }
 
   
@@ -94,11 +99,11 @@ class App extends Component {
 
         {
           this.state.loggedIn ?
-            <Sidebar getQuestions={this.getQuestions} callback={this.getCategoriesState && this.getCurrentCategoryDesc} callbackForQuestionNumber={this.getQuestionNumber} callbackForCurrentCategoryNumber={this.getCurrentCategoryNumber} />
+            <Sidebar getQuestions={this.getQuestions} callback={this.getCategoriesState && this.getCurrentCategoryDesc && this.getUsername} callbackForQuestionNumber={this.getQuestionNumber} callbackForCurrentCategoryNumber={this.getCurrentCategoryNumber} />
             : ""
         }
 
-        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber} />
+        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber} username={this.state.username} />
       </div>
     );
   }
