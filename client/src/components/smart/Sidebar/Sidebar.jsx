@@ -34,8 +34,8 @@ export default class Sidebar extends Component {
 
   // **********************************************************
 
-  passCurrentQuestionNumber(aPropertyValue) {
-    this.props.callbackForQuestionNumber(aPropertyValue);
+  passCurrentQuestionNumber(categoryNumber, questionNumberState) {
+    this.props.callbackForQuestionNumber(categoryNumber, questionNumberState);
   }
 
 
@@ -45,10 +45,10 @@ export default class Sidebar extends Component {
   // props of value for category to be used for the callback in App.js
   // **********************************************************************
   handleCategoryClick = (evt) => {
-    this.setState({ currentCategoryNumber: evt.target.getAttribute('category') });
+    this.setState({ currentCategoryNumber: evt.target.getAttribute('category'), questionNumber:0 });
     this.passCurrentCategoryNumber(evt.target.getAttribute('category'));
     this.passCurrentCategoryDesc(evt.target.getAttribute('selectedcategory'));
-    this.passCurrentQuestionNumber(0);
+    this.passCurrentQuestionNumber(evt.target.getAttribute('category'), 0);
   }
 
   // *********************************************************
@@ -61,8 +61,10 @@ export default class Sidebar extends Component {
       .then(data => this.setState({ categories: data }));
   }
 
+  
   // Needs work. Need to find a way to make content's question number state reset
   // on click of a new category, but a new category click happens here, in sidebar.
+  /*
   resetQuestionNum = () => {
     console.log("In resetQuestionNum"); 
     console.log("currentCategory in resetQuestionNum is " + this.state.currentCategoryNumber);
@@ -71,11 +73,12 @@ export default class Sidebar extends Component {
     }
     console.log("Question number in content after resetQuestionNum runs" + this.state.questionNumber);
 }
+*/
 
 
   render() {
     return (
-      <div className="category" onClick={this.resetQuestionNum}>
+      <div className="category" >
         <br></br>
         {
           this.state.categories.map((category, index) =>

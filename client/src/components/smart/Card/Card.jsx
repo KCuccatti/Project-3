@@ -3,15 +3,12 @@ import { Card } from 'reactstrap';
 import Content from '../../smart/Content.jsx';
 
 export default class card extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+  state = {
       loggedIn: '',
       currentCategoryNumber: '1',
       currentCategoryDesc: 'Quantum',
       questionNumber: 0
     };
-  }
 
   
   render() {
@@ -21,7 +18,7 @@ export default class card extends Component {
           {
             this.props.loggedIn ?
               <Card className="card">
-                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.state.questionNumber} />
+                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber} />
               </Card>
               : ""
           }

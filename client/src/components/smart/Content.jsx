@@ -5,9 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Score from '../dumb/Score.jsx';
 
 export default class Content extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
+state = {
             questions: [],
             questionNumber: 0,
             answer: '',
@@ -17,16 +15,17 @@ export default class Content extends Component {
             currentCategoryDesc: 'Quantum',
             currentScore: 0,
         };
-    }
 
     // *******************************************************
     // When component mounts, set state of questions to questions
     // coming from above parent components.
     // *******************************************************
     componentDidMount() {
+        console.log("Mounted")
         this.setState({
             questions: this.props.questions,
-            questionNumber: 0
+            questionNumber: this.props.questionNumber,
+            currentCategoryNumber:this.props.currentCategoryNumber
         })
     }
 
@@ -80,7 +79,9 @@ export default class Content extends Component {
 
         return (
             <div>
-                {this.state.questionNumber <= 4 ?
+                {this.state.questionNumber}
+                {this.state.currentCategoryNumber}
+                 {this.state.questionNumber <= 4 ?
                     <div className="content">
                         <h2>{this.props.currentCategoryDesc}</h2>
 

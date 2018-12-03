@@ -78,15 +78,14 @@ class App extends Component {
   // Callback function will be called from Sidebar Component to pass back the 
   // questionNumber state.
   // **************************************************************************
-  getQuestionNumber = (params) => {
+  getQuestionNumber = (categoryNumber, questionNumberState) => {
+    console.log("Category number and question number in app on click of a new category " + categoryNumber, questionNumberState)
     this.setState({
-      questionNumber: params
+      currentCategoryNumber:categoryNumber,
+      questionNumber: questionNumberState
     })
   }
 
-  hello = () => {
-    this.sidebar.resetQuestionNum();
-  }
   
   render() {
     return (
@@ -99,7 +98,7 @@ class App extends Component {
             : ""
         }
 
-        <Card onRef={ref => (this.sidebar = ref)} questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber} />
+        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber} />
       </div>
     );
   }
