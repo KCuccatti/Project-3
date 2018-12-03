@@ -84,8 +84,10 @@ class App extends Component {
     })
   }
 
+  hello = () => {
+    this.sidebar.resetQuestionNum();
+  }
   
-
   render() {
     return (
       <div className="App" >
@@ -97,7 +99,7 @@ class App extends Component {
             : ""
         }
 
-        <Card questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc}  questionNumber={this.state.questionNumber} />
+        <Card onRef={ref => (this.sidebar = ref)} questions={this.state.questions} loggedIn={this.state.loggedIn} currentCategoryNumber={this.state.currentCategoryNumber} categories={this.state.categories} currentCategoryDesc={this.state.currentCategoryDesc} questionNumber={this.state.questionNumber} />
       </div>
     );
   }

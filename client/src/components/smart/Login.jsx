@@ -15,10 +15,12 @@ export default class Login extends Component {
             error: '',
             loggedIn: '',
             msg: '',
-            showLoginDiv: true
+            showLoginDiv: true,
+            showNewPassword: false,
+            newPassword: ''
         };
     }
-    
+
     // ***************************************************************
     // Pass the loggedIn up to the parent (App) component
     // ***************************************************************
@@ -52,7 +54,7 @@ export default class Login extends Component {
     // ***************************************************************
     conditionalLogin = () => {
         if (this.state.loggedIn === true) {
-            this.setState({showLoginDiv: false})
+            this.setState({ showLoginDiv: false })
 
         } else if (this.state.loggedIn === false) {
             this.setState({ error: ' Invalid username/password' });
@@ -107,9 +109,9 @@ export default class Login extends Component {
             .then((result) => {
                 this.setState({ loggedIn: result.data.loggedIn })
                 this.conditionalLogin();
-                
+
                 // pass loggedIn state to parent (App Component)
-                this.passLoggedInState(this.state.loggedIn); 
+                this.passLoggedInState(this.state.loggedIn);
             })
     }
 
@@ -120,13 +122,13 @@ export default class Login extends Component {
         axios.post(`/api/Signup/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
                 if (result.data.success) {
-                    this.setState({msg: "Glad to have you!"})
+                    this.setState({ msg: "Glad to have you!" })
 
-                } else { 
+                } else {
                     this.setState({ error: 'User already exists.' });
                 }
             })
-            this.clearMsgState();
+        this.clearMsgState();
     }
 
     // ******************************************************************
@@ -137,13 +139,13 @@ export default class Login extends Component {
         axios.delete(`/api/CancelMembership/${this.state.username}/${this.state.password}/${this.state.srcSystemCode}`)
             .then((result) => {
                 if (result.data.success) {
-                   this.setState({msg: 'User deleted'});
+                    this.setState({ msg: 'User deleted' });
                 }
                 else {
-                    this.setState({error: 'Error deleting user'});
+                    this.setState({ error: 'Error deleting user' });
                 }
             })
-            this.clearMsgState();
+        this.clearMsgState();
     }
 
 
@@ -161,8 +163,41 @@ export default class Login extends Component {
     // ******************************************************
     handlePassChange = (evt) => {
         this.setState({
-            password: evt.target.value,
+            password: evt.target.value
         });
+    }
+
+    handleNewPassChange = (evt) => {
+        this.setState({
+            newPassword: evt.target.value
+        })
+    }
+
+    showNewPasswordFunc = () => {
+        this.setState({ showNewPassword: true });
+    }
+
+    submitNewPasswordFunc = () => {
+        if (!this.state.username) {
+            this.setState({ msg: '' });
+            return this.setState({ error: ' Username is required' });
+        }
+        if (!this.state.password) {
+            this.setState({ msg: '' });
+            return this.setState({ error: ' Password is required' });
+        }
+        
+        axios.put(`/api/updatePassword/${this.state.username}/${this.state.passsword}/${this.state.newPassword}/${this.state.srcSystemCode}`)
+        .then((result) => {
+            if (result.data.success) {
+                this.setState({ msg: 'Password Changed' });
+            }
+            else {
+                this.setState({ error: 'Error changing password' });
+            }
+        })
+    this.clearMsgState();
+        
     }
 
     // *******************************
@@ -176,15 +211,14 @@ export default class Login extends Component {
     // Clears the state of the 'msg' and 'error' states 
     // *****************************************************
     clearMsgState() {
-        this.setState({msg: ''});
-        this.setState({error: ''});
+        this.setState({ msg: '' });
+        this.setState({ error: '' });
     }
-
 
     render() {
         return (
             <div>
-                <LoginDiv handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissMsg={this.dismissMsg} handleSignup={this.handleSignup} />
+                <LoginDiv showNewPasswordFunc={this.showNewPasswordFunc} handleLogin={this.handleLogin} handleCancelMembership={this.handleCancelMembership} user={this.state} handleUserChange={this.handleUserChange} handlePassChange={this.handlePassChange} dismissMsg={this.dismissMsg} handleSignup={this.handleSignup} submitNewPasswordFunc={this.submitNewPasswordFunc} handleNewPassChange={this.handleNewPassChange}/>
             </div>
         );
     }

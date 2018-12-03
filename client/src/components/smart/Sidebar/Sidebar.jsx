@@ -64,13 +64,14 @@ export default class Sidebar extends Component {
   // Needs work. Need to find a way to make content's question number state reset
   // on click of a new category, but a new category click happens here, in sidebar.
   resetQuestionNum = () => {
-    console.log("In resetQuestionNum");
+    console.log("In resetQuestionNum"); 
     console.log("currentCategory in resetQuestionNum is " + this.state.currentCategoryNumber);
-    if (this.props.currentCategoryNumber === '2') {
+    if (!this.props.currentCategoryNumber) {
       this.setState({ questionNumber: 0 });
     }
     console.log("Question number in content after resetQuestionNum runs" + this.state.questionNumber);
-  }
+}
+
 
   render() {
     return (
@@ -78,8 +79,7 @@ export default class Sidebar extends Component {
         <br></br>
         {
           this.state.categories.map((category, index) =>
-            <div onClick={this.handleCategoryClick} className="sidebarBtn" category={index + 1} key={index} selectedcategory={category.description}>
-              <img className="sidebarImg" src={category.image_name} alt={category.description} width="60" /> {category.description}
+            <div onClick={this.handleCategoryClick} className="sidebarBtn" category={index + 1} key={index} selectedcategory={category.description}> <img className="sidebarImg" src={category.image_name} alt={category.description} width="60" /> {category.description}
             </div>
           )
         }

@@ -1,13 +1,13 @@
 .login-div {
      width: 300px;
-     margin-top: 250px;
+     margin-top: 210px;
      background-color: rgb(51, 108, 173);
      opacity: .88;
-    }
+}
 
-    .loginForm {
-        height: 275px;
-    }
+.loginForm {
+    height: 350px;
+}
 
 .form {
     text-align: center;
@@ -37,14 +37,32 @@
     background-color: black;
 }
 
-.form-control {
-    border: 3px solid #e5e913;
-}
-
 .successMsg {
     font-size: 1.2em;
     color: white;
     margin-bottom: 20px;
+}
+
+label:hover {
+    color: red; 
+    cursor: pointer;
+}
+
+.BtnChangePsw {
+    font-size: .9em;
+}
+
+.btnLogin {
+    margin-bottom: 90px;
+}
+
+.btnSignup {
+    margin-bottom: 90px;
+    margin-left: 10px;
+}
+
+.btnCancelMembership {
+    margin-top: -120px;
 }
 
 

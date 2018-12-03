@@ -3,6 +3,15 @@
     margin-left:20px;
 }
 
+.content2 {
+    background: url('../../testtaking.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        height: 250px;
+}
+
 .choices {
     text-align: left;
 }
@@ -26,3 +35,9 @@
 .btnNext {
     width: 100px;
 }
+
+.scoreDiv {
+    margin-top: 50px;
+
+}
+

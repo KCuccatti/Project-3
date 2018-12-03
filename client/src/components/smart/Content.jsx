@@ -15,7 +15,7 @@ export default class Content extends Component {
             evaluated: true,
             currentCategoryNumber: 1,
             currentCategoryDesc: 'Quantum',
-            currentScore: 0,    
+            currentScore: 0,
         };
     }
 
@@ -74,12 +74,12 @@ export default class Content extends Component {
             this.setState({ questionNumber: this.state.questionNumber - 1 });
         }
     }
-    
-   
+
+
     render() {
-        
+
         return (
-            <div>          
+            <div>
                 {this.state.questionNumber <= 4 ?
                     <div className="content">
                         <h2>{this.props.currentCategoryDesc}</h2>
@@ -87,7 +87,7 @@ export default class Content extends Component {
                         <hr></hr>
                         {
                             this.props.questions.map((question, index) =>
-                                index === this.state.questionNumber ?  
+                                index === this.state.questionNumber ?
                                     <div key={index}>
                                         <div className="question">
                                             <h3>{this.state.questionNumber}{question.question_text}</h3>
@@ -111,7 +111,14 @@ export default class Content extends Component {
                         </div>
                     </div>
                     :
-                    <Score test={this.state} />
+                    <div>
+                        <div className="content2">
+                        
+                        </div>
+                        <div className="scoreDiv">
+                            <Score test={this.state} currentCategoryDesc={this.props.currentCategoryDesc} />
+                        </div>
+                    </div>
                 }
             </div>
         )

@@ -1,9 +1,8 @@
-.score {
+.scoref {
     font-weight: bold;
-    color: blue;
+    color: green;
     text-align: center;
-    border: 1px solid black;
     width: 85%;
-    margin-top:230px;
     margin-left: 55px;
+    font-size: 1.4em;
 }
