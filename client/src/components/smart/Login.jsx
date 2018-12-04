@@ -28,9 +28,6 @@ export default class Login extends Component {
         this.props.callback(aPropertyValue);
     }
 
-    passUsername(aPropertyValue) {
-        this.props.callback(aPropertyValue)
-    }
 
     // *************************************************************************
     // Handles what occurs on click of the login button. If no user or pass is detected
@@ -116,7 +113,6 @@ export default class Login extends Component {
 
                 // pass loggedIn state to parent (App Component)
                 this.passLoggedInState(this.state.loggedIn);
-                this.passUsername(this.state.username);
             })
     }
 

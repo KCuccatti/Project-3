@@ -5,17 +5,16 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Score from '../dumb/Score.jsx';
 
 export default class Content extends Component {
-state = {
-            questions: [],
-            username: '',
-            questionNumber: 0,
-            answer: '',
-            userSubmittedChoice: "",
-            evaluated: true,
-            currentCategoryNumber: 1,
-            currentCategoryDesc: 'Quantum',
-            currentScore: 0,
-        };
+    state = {
+        questions: [],
+        questionNumber: 0,
+        answer: '',
+        userSubmittedChoice: "",
+        evaluated: true,
+        currentCategoryNumber: 1,
+        currentCategoryDesc: 'Quantum',
+        currentScore: 0,
+    };
 
     // *******************************************************
     // When component mounts, set state of questions to questions
@@ -25,7 +24,7 @@ state = {
         this.setState({
             questions: this.props.questions,
             questionNumber: this.props.questionNumber,
-            currentCategoryNumber:this.props.currentCategoryNumber
+            currentCategoryNumber: this.props.currentCategoryNumber
         })
     }
 
@@ -78,9 +77,8 @@ state = {
 
         return (
             <div>
-                 {this.state.questionNumber <= 4 ?
+                {this.state.questionNumber <= 4 ?
                     <div className="content">
-                    <h2>Welcome{this.props.username}</h2>
                         <h2>{this.props.currentCategoryDesc}</h2>
 
                         <hr></hr>
@@ -112,7 +110,7 @@ state = {
                     :
                     <div>
                         <div className="content2">
-                        
+
                         </div>
                         <div className="scoreDiv">
                             <Score test={this.state} currentCategoryDesc={this.props.currentCategoryDesc} />

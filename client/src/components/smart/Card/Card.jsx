@@ -17,7 +17,7 @@ export default class card extends Component {
           {
             this.props.loggedIn ?
               <Card className="card">
-                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber} username={this.props.username}/>
+                 <Content categories={this.props.categories} questions={this.props.questions} currentCategoryNumber={this.props.currentCategoryNumber} currentCategoryDesc={this.props.currentCategoryDesc} questionNumber={this.props.questionNumber}/>
               </Card>
               : ""
           }
